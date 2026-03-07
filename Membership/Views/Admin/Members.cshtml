@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Membership.Models.User>
+
+<div class="container-fluid mt-5 px-4" dir="rtl">
+
+    <div class="card shadow-sm mb-5 border-0" style="border-radius: 15px;">
+        <div class="card-header py-3 bg-warning">
+            <h5 class="mb-0 text-dark fw-bold text-center"><i class="bi bi-person-plus-fill"></i> طلبات إنتساب جديدة (تحت المراجعة)</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>الاسم</th>
+                            <th>رقم الطالب</th>
+                            <th>الهاتف</th>
+                            <th>البريد الالكتروني</th>
+                            <th>الجامعة / الكلية</th>
+                            <th>السنة</th>
+                            <th>الكرت</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Where(u => !u.IsActive))
+                        {
+                            <tr>
+                                <td class="fw-bold">@user.FirstName @user.LastName</td>
+                                <td><span class="badge bg-secondary text-white">@user.StudentNumber</span></td>
+                                <td dir="ltr">@user.PhoneNumber</td>
+                                <td dir="ltr">@user.Email</td>
+                                <td>@user.University <br /> <small class="text-muted">@user.College</small></td>
+                                <td>@user.YearOfStudy</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="showImage('/images/students/@user.StudentCartPhoto')">إظهار</button>
+                                </td>
+                                <td>
+                                    <form asp-action="ActivateUser" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-success px-3 fw-bold">تفعيل</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0" style="border-radius: 15px;">
+        <div class="card-header py-3" style="background-color: #1a3a5f;">
+            <h5 class="mb-0 text-white fw-bold text-center"><i class="bi bi-check-circle-fill"></i> قاعدة بيانات الأعضاء المفعلين</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle text-center">
+                    <thead style="background-color: #f8fafc;">
+                        <tr>
+                            <th>الاسم الكامل</th>
+                            <th>رقم الطالب</th>
+                            <th>الهاتف</th>
+                            <th>البريد الإلكتروني</th>
+                            <th>الجامعة والكلية</th>
+                            <th>السنة</th>
+                            <th>الكرت</th>
+                            <th>الحالة</th>
+                            <th>الإجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Where(u => u.IsActive))
+                        {
+                            <tr>
+                                <td class="fw-bold">@user.FirstName @user.LastName</td>
+                                <td><span class="badge bg-dark">@user.StudentNumber</span></td>
+                                <td dir="ltr">@user.PhoneNumber</td>
+                                <td><small>@user.Email</small></td>
+                                <td>@user.University <br /> <small class="text-muted">@user.College</small></td>
+                                <td>@user.YearOfStudy</td>
+                                <td>
+                                    <button class="btn btn-sm btn-light border" onclick="showImage('/images/students/@user.StudentCartPhoto')">👁️</button>
+                                </td>
+                                <td><span class="badge bg-success">عضو نشط</span></td>
+                                <td>
+                                    <form asp-action="DeactivateUser" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm">تعليق العضوية</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@* كود الـ Modal الخاص بالصور يبقى كما هو في الأسفل *@
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0" style="border-radius: 20px;">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold text-primary" id="imageModalLabel">معاينة كرت الطالب</h5>
+                <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-4">
+                <img id="modalImage" src="" class="img-fluid rounded-3 shadow-lg" alt="Student Card" style="max-height: 500px;" />
+            </div>
+            <div class="modal-footer border-0 justify-content-center pt-0">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">إغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showImage(src) {
+            // تحديث مصدر الصورة في المودال
+            document.getElementById('modalImage').src = src;
+            // إظهار المودال باستخدام Bootstrap API
+            var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            myModal.show();
+        }
+    </script>
+}

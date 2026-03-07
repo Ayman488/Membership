@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "لوحة تحكم الأدمن";
+}
+
+<style>
+    .admin-page {
+        background-color: #1f4c8b;
+        min-height: calc(100vh - 120px);
+        padding: 100px 0;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+    }
+
+    .admin-title {
+        color: #ffffff;
+        font-weight: bold;
+        margin-bottom: 60px;
+    }
+
+    .admin-card {
+        background-color: #ffffff;
+        border-radius: 14px;
+        padding: 25px 20px;
+        max-width: 360px;
+        margin: auto;
+        text-align: center;
+        transition: 0.3s ease;
+        color: #000;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+        .admin-card i {
+            font-size: 42px;
+            margin-bottom: 12px;
+            display: block;
+            color: #1f4c8b;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-6px);
+            background-color: #f2f2f2;
+        }
+
+        .admin-card h4 {
+            margin: 0;
+            font-weight: 600;
+        }
+</style>
+
+<div class="admin-page">
+    <div class="container text-center">
+        <h2 class="admin-title">لوحة تحكم الأدمن</h2>
+
+        <div class="row justify-content-center g-4">
+
+            <!-- الأعضاء -->
+            <div class="col-md-4">
+                <a href="/Admin/Members" class="text-decoration-none">
+                    <div class="admin-card">
+                        <i class="bi bi-people-fill"></i>
+                        <h4>الأعضاء</h4>
+                    </div>
+                </a>
+            </div>
+
+            <!-- استخراج ملف -->
+            <div class="col-md-4">
+                <a href="/Admin/PrintFile" class="text-decoration-none">
+                    <div class="admin-card">
+                        <i class="bi bi-file-earmark-arrow-down-fill"></i>
+                        <h4>استخراج ملف</h4>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

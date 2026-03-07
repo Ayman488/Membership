@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "الرئيسية - اتحاد الطلبة السوريين";
+}
+
+@section Styles {
+    <style>
+        /* كسر حدود الـ Container الافتراضي في الـ Layout */
+        .full-bleed {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            /* إلغاء الفراغ العلوي والسفلي الناتج عن كلاسات Layout */
+            margin-top: -1.5rem;
+        }
+
+        .home-hero-section {
+            background-color: #1f4c8b;
+            color: white;
+            font-family: "Cairo", sans-serif;
+            min-height: 85vh; /* لجعل اللون يملأ معظم الشاشة طولياً */
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-register {
+            background-color: #ff5f73;
+            width: 260px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white !important;
+            transition: 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 0;
+        }
+
+            .btn-register:hover {
+                background-color: #ff3f57;
+                transform: translateY(-3px);
+                box-shadow: 0 4px 15px rgba(255, 95, 115, 0.3);
+            }
+
+        .social-box {
+            width: 42px;
+            height: 42px;
+            background-color: white;
+            border-radius: 6px;
+            color: #1f4c8b !important;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+            .social-box:hover {
+                background-color: #f1f1f1;
+                transform: scale(1.1);
+            }
+
+        .hero-img {
+            max-width: 100%;
+            height: auto;
+            max-height: 450px;
+            /* إضافة تأثير بسيط للصورة */
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+    </style>
+}
+
+<div class="full-bleed home-hero-section" dir="rtl">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-md-6 order-2 order-md-1 text-center">
+                <h1 class="fw-bold mb-3 display-4">
+                    اتحاد الطلبة السوريين<br>في سكاريا
+                </h1>
+
+                <p class="fs-5 mb-4 opacity-90">
+                    مرحباً بكم بالبوابة الإلكترونية لتسجيل أعضاء الهيئة العامة
+                </p>
+
+                <a asp-controller="Home" asp-action="Register" class="btn btn-register mb-4">
+                    انتسب الآن
+                </a>
+
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="#" class="social-box"><i class="bi bi-youtube"></i></a>
+                    <a href="#" class="social-box"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="social-box"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="col-md-6 text-center mt-4 mt-md-0 order-1 order-md-2">
+                <img src="~/logo-large.png" alt="Main Logo" class="hero-img">
+            </div>
+
+        </div>
+    </div>
+</div>

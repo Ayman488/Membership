@@ -1,0 +1,123 @@
+﻿@model Membership.Models.User
+
+@{
+    ViewData["Title"] = "نموذج الانتساب";
+}
+@* وضعنا الستايل هنا داخل الصفحة للتحكم في الخلفية وشكل الكارت *@
+<div style="background-color: #1f4c8b; min-height: 100vh; padding: 50px 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+
+                <div class="card shadow-lg border-0" style="border-radius: 20px; overflow: hidden;">
+                    <div class="card-header bg-white text-center border-0 pt-5 pb-3">
+                        <h2 class="fw-bold" style="color: #1f4c8b;">نموذج الانتساب</h2>
+                    </div>
+
+                    <div class="card-body p-5 pt-2">
+                        <form asp-action="Register" method="post" enctype="multipart/form-data" dir="rtl">
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 text-end">
+                                    <label asp-for="FirstName" class="form-label fw-bold" style="color: #1f4c8b;">الاسم الأول:</label>
+                                    <input asp-for="FirstName" class="form-control" placeholder="الاسم الأول" style="background-color: #f8fafc;" />
+                                    <span asp-validation-for="FirstName" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <label asp-for="LastName" class="form-label fw-bold" style="color: #1f4c8b;">الاسم الأخير:</label>
+                                    <input asp-for="LastName" class="form-control" placeholder="الاسم الأخير" style="background-color: #f8fafc;" />
+                                    <span asp-validation-for="LastName" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 text-end">
+                                    <label asp-for="gender" class="form-label fw-bold" style="color: #1f4c8b;">الجنس:</label>
+                                    <select asp-for="gender" class="form-select text-end" style="background-color: #f8fafc;">
+                                        <option value="">الجنس</option>
+                                        <option value="ذكر">ذكر</option>
+                                        <option value="أنثى">أنثى</option>
+                                    </select>
+                                    <span asp-validation-for="gender" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <label asp-for="Email" class="form-label fw-bold" style="color: #1f4c8b;">البريد الإلكتروني:</label>
+                                    <input asp-for="Email" type="email" class="form-control text-start" placeholder="example@email.com" style="background-color: #f8fafc;" />
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 text-end">
+                                    <label asp-for="PhoneNumber" class="form-label fw-bold" style="color: #2c5282;">رقم الهاتف:</label>
+                                    <input asp-for="PhoneNumber" class="form-control text-start" dir="ltr" placeholder="053xxx" style="background-color: #f8fafc;" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <label asp-for="StudentNumber" class="form-label fw-bold" style="color: #2c5282;">رقم الطالب:</label>
+                                    <input asp-for="StudentNumber" class="form-control" placeholder="رقم الطالب" style="background-color: #f8fafc;" />
+                                    <span asp-validation-for="StudentNumber" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="mb-4 text-end">
+                                <label asp-for="University" class="form-label fw-bold" style="color: #2c5282;">الجامعة:</label>
+                                <select asp-for="University" class="form-select text-end" style="background-color: #f8fafc;">
+                                    <option value="">اختر الجامعة</option>
+                                    <option value="الجامعة 1">الجامعة 1</option>
+                                    <option value="الجامعة 2">الجامعة 2</option>
+                                </select>
+                                <span asp-validation-for="University" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-4 text-end">
+                                <label asp-for="College" class="form-label fw-bold" style="color: #1f4c8b;">الكلية / الفرع:</label>
+                                <select asp-for="College" class="form-select text-end" style="background-color: #f8fafc;">
+                                    <option value="">الكلية / الفرع</option>
+                                    <option value="هندسة">هندسة</option>
+                                    <option value="طب">طب</option>
+                                </select>
+                                <span asp-validation-for="College" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-4 text-end">
+                                <label asp-for="YearOfStudy" class="form-label fw-bold" style="color: #1f4c8b;">السنة الدراسية:</label>
+                                <select asp-for="YearOfStudy" class="form-select text-end" style="background-color: #f8fafc;">
+                                    <option value="">تومر</option>
+                                    <option value="1">سنة أولى</option>
+                                </select>
+                                <span asp-validation-for="YearOfStudy" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-5 text-end">
+                                <label class="form-label fw-bold" style="color: #2c5282;">صورة كرت الطالب :</label>
+                                <input type="file" name="photoFile" class="form-control text-start" />
+                            </div>
+
+                            <div class="d-grid pb-3">
+                                <button type="submit" class="btn btn-lg text-white fw-bold shadow-sm" style="background-color: #4a9d00; border-radius: 10px;">انتساب</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // دالة لإرسال طلب بسيط للسيرفر كل 5 دقائق لمنع انتهاء الجلسة
+        setInterval(function() {
+            fetch('/Home/Index'); // يطلب أي صفحة خفيفة فقط ليبقى الاتصال حياً
+            console.log("Session kept alive...");
+        }, 300000); // 300,000 ملي ثانية = 5 دقائق
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
