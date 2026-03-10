@@ -17,57 +17,57 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Membership
 build_property.RootNamespace = Membership
-build_property.ProjectDir = D:\MVC\Api\Membership\Membership\
+build_property.ProjectDir = C:\Users\Mostafa Ghashim\Desktop\membership\Membership\Membership\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\MVC\Api\Membership\Membership
+build_property.MSBuildProjectDirectory = C:\Users\Mostafa Ghashim\Desktop\membership\Membership\Membership
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/MVC/Api/Membership/Membership/Views/Admin/AdminPage.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/Admin/AdminPage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaW5QYWdlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/MVC/Api/Membership/Membership/Views/Admin/Members.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/Admin/Members.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWVtYmVycy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/MVC/Api/Membership/Membership/Views/Admin/PrintFile.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/Admin/PrintFile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJpbnRGaWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/MVC/Api/Membership/Membership/Views/Home/Index.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/MVC/Api/Membership/Membership/Views/Home/Privacy.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/MVC/Api/Membership/Membership/Views/Home/Register.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/Home/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/MVC/Api/Membership/Membership/Views/Shared/Error.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/MVC/Api/Membership/Membership/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/MVC/Api/Membership/Membership/Views/_ViewImports.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/MVC/Api/Membership/Membership/Views/_ViewStart.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/MVC/Api/Membership/Membership/Views/Shared/_Layout.cshtml]
+[C:/Users/Mostafa Ghashim/Desktop/membership/Membership/Membership/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-4pgtwmxr1w

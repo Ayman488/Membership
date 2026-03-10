@@ -1,4 +1,6 @@
 using Membership.Data;
+using Membership.Models; // تم التعديل
+using Membership.Services; // تم التعديل
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -10,6 +12,8 @@ builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("AppDbConnectionString");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings")); // تم التعديل
+builder.Services.AddScoped<IEmailService, SmtpEmailService>(); // تم التعديل
 
 
 // Add services to the container.

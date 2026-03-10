@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\MVC\\Api\\Membership\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|d:\\mvc\\api\\membership\\membership\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|solutionrelative:membership\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|d:\\mvc\\api\\membership\\membership\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|solutionrelative:membership\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|d:\\mvc\\api\\membership\\membership\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|solutionrelative:membership\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -43,14 +51,6 @@
       "RelativeMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|solutionrelative:membership\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|d:\\mvc\\api\\membership\\membership\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|solutionrelative:membership\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|d:\\mvc\\api\\membership\\membership\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|solutionrelative:membership\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|d:\\mvc\\api\\membership\\membership\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{643597DB-7402-4994-81F3-30C594811BEF}|Membership\\Membership.csproj|solutionrelative:membership\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -82,23 +82,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SuperAdmin.cs",
-              "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Models\\SuperAdmin.cs",
-              "RelativeDocumentMoniker": "Membership\\Models\\SuperAdmin.cs",
-              "ToolTip": "D:\\MVC\\Api\\Membership\\Membership\\Models\\SuperAdmin.cs",
-              "RelativeToolTip": "Membership\\Models\\SuperAdmin.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-15T21:03:01.829Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "Register.cshtml",
               "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Views\\Home\\Register.cshtml",
               "RelativeDocumentMoniker": "Membership\\Views\\Home\\Register.cshtml",
@@ -110,7 +98,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Admin.cs",
               "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Models\\Admin.cs",
               "RelativeDocumentMoniker": "Membership\\Models\\Admin.cs",
@@ -122,19 +110,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 0,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\appsettings.json",
               "RelativeDocumentMoniker": "Membership\\appsettings.json",
               "ToolTip": "D:\\MVC\\Api\\Membership\\Membership\\appsettings.json",
               "RelativeToolTip": "Membership\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-01-12T14:57:29.911Z"
+              "WhenOpened": "2026-01-12T14:57:29.911Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Members.cshtml",
               "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Views\\Admin\\Members.cshtml",
               "RelativeDocumentMoniker": "Membership\\Views\\Admin\\Members.cshtml",
@@ -146,7 +135,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "AdminController.cs",
               "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "Membership\\Controllers\\AdminController.cs",
@@ -154,11 +143,12 @@
               "RelativeToolTip": "Membership\\Controllers\\AdminController.cs",
               "ViewState": "AgIAAGsAAAAA18zMzMwjwBoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-30T20:51:27.88Z"
+              "WhenOpened": "2025-12-30T20:51:27.88Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "User.cs",
               "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Models\\User.cs",
               "RelativeDocumentMoniker": "Membership\\Models\\User.cs",
@@ -170,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "AdminPage.cshtml",
               "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Views\\Admin\\AdminPage.cshtml",
               "RelativeDocumentMoniker": "Membership\\Views\\Admin\\AdminPage.cshtml",
@@ -182,7 +172,32 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Program.cs",
+              "RelativeDocumentMoniker": "Membership\\Program.cs",
+              "ToolTip": "D:\\MVC\\Api\\Membership\\Membership\\Program.cs",
+              "RelativeToolTip": "Membership\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T14:57:13.236Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "SuperAdmin.cs",
+              "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Models\\SuperAdmin.cs",
+              "RelativeDocumentMoniker": "Membership\\Models\\SuperAdmin.cs",
+              "ToolTip": "D:\\MVC\\Api\\Membership\\Membership\\Models\\SuperAdmin.cs",
+              "RelativeToolTip": "Membership\\Models\\SuperAdmin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-15T21:03:01.829Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Membership\\Views\\Shared\\_Layout.cshtml",
@@ -191,18 +206,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAF8AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-12-30T21:21:14.972Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Program.cs",
-              "RelativeDocumentMoniker": "Membership\\Program.cs",
-              "ToolTip": "D:\\MVC\\Api\\Membership\\Membership\\Program.cs",
-              "RelativeToolTip": "Membership\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-12T14:57:13.236Z"
             },
             {
               "$type": "Document",
@@ -218,7 +221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "PrintFile.cshtml",
               "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Views\\Admin\\PrintFile.cshtml",
               "RelativeDocumentMoniker": "Membership\\Views\\Admin\\PrintFile.cshtml",
@@ -230,7 +233,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\MVC\\Api\\Membership\\Membership\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Membership\\Views\\Home\\Index.cshtml",
