@@ -4,6 +4,12 @@ namespace Membership.Models
 {
     public class User
     {
+        public enum MemberStatus 
+        {
+            Graduated,
+            Undergraduate,
+        }
+
         [Key]
         public int UserId { get; set; }
         public string FirstName { get; set; }
@@ -17,5 +23,7 @@ namespace Membership.Models
         public string YearOfStudy { get; set; }
         public string? StudentCartPhoto { get; set; }
         public bool IsActive { get; set; } = false;
+        public MemberStatus Status = MemberStatus.Undergraduate;
+        public bool IsGrad() => Status == MemberStatus.Graduated;
     }
 }
