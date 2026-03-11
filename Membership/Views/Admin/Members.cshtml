@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div class="card shadow-lg border-0" style="border-radius: 15px;">
+        <div class="card shadow-lg border-0  mb-5"" style="border-radius: 15px;">
         <div class="card-header py-3" style="background-color: #1a3a5f;">
             <h5 class="mb-0 text-white fw-bold text-center"><i class="bi bi-check-circle-fill"></i> قاعدة بيانات الأعضاء المفعلين</h5>
         </div>
@@ -65,10 +65,11 @@
                             <th>الكرت</th>
                             <th>الحالة</th>
                             <th>الإجراء</th>
+                            <th>تخرج</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var user in Model.Where(u => u.IsActive))
+                        @foreach (var user in Model.Where(u => u.IsActive && !u.IsGrad()))
                         {
                             <tr>
                                 <td class="fw-bold">@user.FirstName @user.LastName</td>
@@ -86,6 +87,11 @@
                                         <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm">تعليق العضوية</button>
                                     </form>
                                 </td>
+                                <td>
+                                    <form asp-action="MakeGraduate" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-success px-3 fw-bold">تخرج</button>
+                                    </form>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -93,7 +99,52 @@
             </div>
         </div>
     </div>
+
+    <div class="card shadow-lg border-0  mb-5" style="border-radius: 15px;">
+    <div class="card-header py-3" style="background-color: #1a3a5f;">
+        <h5 class="mb-0 text-white fw-bold text-center"><i class="bi bi-check-circle-fill"></i> قاعدة بيانات الأعضاء المتخرجين</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead style="background-color: #f8fafc;">
+                    <tr>
+                        <th>الاسم الكامل</th>
+                        <th>رقم الطالب</th>
+                        <th>الهاتف</th>
+                        <th>البريد الإلكتروني</th>
+                        <th>الجامعة والكلية</th>
+                        <th>السنة</th>
+                        <th>الكرت</th>
+                        <th>إلغاء التخرج</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Where(u => u.IsGrad()))
+                    {
+                        <tr>
+                            <td class="fw-bold">@user.FirstName @user.LastName</td>
+                            <td><span class="badge bg-dark">@user.StudentNumber</span></td>
+                            <td dir="ltr">@user.PhoneNumber</td>
+                            <td><small>@user.Email</small></td>
+                            <td>@user.University <br /> <small class="text-muted">@user.College</small></td>
+                            <td>@user.YearOfStudy</td>
+                            <td>
+                                <button class="btn btn-sm btn-light border" onclick="showImage('/images/students/@user.StudentCartPhoto')">👁️</button>
+                            </td>
+                            <td>
+                                <form asp-action="MakeUndegraduate" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-success px-3 fw-bold">إلغاء التخرج</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
 @* كود الـ Modal الخاص بالصور يبقى كما هو في الأسفل *@
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
