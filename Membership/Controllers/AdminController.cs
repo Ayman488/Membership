@@ -23,9 +23,33 @@ namespace Membership.Controllers
             return View(members);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GraduateMember(int Id)
+        {
+            var member = await _appDbContext.Users.FindAsync(id);
+            
+            if (member == null)
+                return NotFound();
 
+            member.Status = MemberStatus.Graduated;
+            await _appDbContext.SaveChangesAsync();
 
+            return RedirectToAction(nameof(Members));
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> UndergraduateMember(int Id)
+        {
+            var member = await _appDbContext.Users.FindAsync(id);
+            
+            if (member == null)
+                return NotFound();
+
+            member.Status = MemberStatus.Undergraduate;
+            await _appDbContext.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Members));
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
