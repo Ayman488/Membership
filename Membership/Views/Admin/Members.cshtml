@@ -18,7 +18,7 @@
                             <th>الجامعة / الكلية</th>
                             <th>السنة</th>
                             <th>الكرت</th>
-                            <th>الإجراءات</th>
+                            <th>الإجراء</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,8 +64,7 @@
                             <th>السنة</th>
                             <th>الكرت</th>
                             <th>الحالة</th>
-                            <th>الإجراء</th>
-                            <th>تخرج</th>
+                            <th>الإجراءات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,10 +85,9 @@
                                     <form asp-action="DeactivateUser" asp-route-id="@user.UserId" method="post" style="display:inline;">
                                         <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm">تعليق العضوية</button>
                                     </form>
-                                </td>
-                                <td>
-                                    <form asp-action="MakeGraduate" asp-route-id="@user.UserId" method="post" style="display:inline;">
-                                        <button type="submit" class="btn btn-sm btn-success px-3 fw-bold">تخرج</button>
+
+                                    <form asp-action="GraduateMember" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-success px-3 fw-bold ms-2">تخرج</button>
                                     </form>
                                 </td>
                             </tr>
@@ -116,7 +114,7 @@
                         <th>الجامعة والكلية</th>
                         <th>السنة</th>
                         <th>الكرت</th>
-                        <th>إلغاء التخرج</th>
+                        <th>الإجراء</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -133,7 +131,7 @@
                                 <button class="btn btn-sm btn-light border" onclick="showImage('/images/students/@user.StudentCartPhoto')">👁️</button>
                             </td>
                             <td>
-                                <form asp-action="MakeUndegraduate" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                <form asp-action="UndergraduateMember" asp-route-id="@user.UserId" method="post" style="display:inline;">
                                     <button type="submit" class="btn btn-sm btn-success px-3 fw-bold">إلغاء التخرج</button>
                                 </form>
                             </td>
