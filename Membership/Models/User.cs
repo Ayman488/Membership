@@ -23,7 +23,7 @@ namespace Membership.Models
         public string YearOfStudy { get; set; }
         public string? StudentCartPhoto { get; set; }
         public bool IsActive { get; set; } = false;
-        public MemberStatus Status = MemberStatus.Undergraduate;
+        public MemberStatus Status { get; set; } = MemberStatus.Undergraduate;
         public bool IsGrad() => Status == MemberStatus.Graduated;
     }
 }
