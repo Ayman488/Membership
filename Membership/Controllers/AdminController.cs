@@ -26,13 +26,16 @@ namespace Membership.Controllers
         [HttpPost]
         public async Task<IActionResult> GraduateMember(int Id)
         {
-            var member = await _appDbContext.Users.FindAsync(id);
+            var member = await _appDbContext.Users.FindAsync(Id);
             
             if (member == null)
                 return NotFound();
 
-            member.Status = MemberStatus.Graduated;
-            await _appDbContext.SaveChangesAsync();
+            if (member.Status != Models.User.MemberStatus.Graduated)
+            {
+                member.Status = Models.User.MemberStatus.Graduated;
+                await _appDbContext.SaveChangesAsync();    
+            }
 
             return RedirectToAction(nameof(Members));
         }
@@ -40,13 +43,16 @@ namespace Membership.Controllers
         [HttpPost]
         public async Task<IActionResult> UndergraduateMember(int Id)
         {
-            var member = await _appDbContext.Users.FindAsync(id);
+            var member = await _appDbContext.Users.FindAsync(Id);
             
             if (member == null)
                 return NotFound();
 
-            member.Status = MemberStatus.Undergraduate;
-            await _appDbContext.SaveChangesAsync();
+            if (member.Status != Models.User.MemberStatus.Undergraduate)
+            {
+                member.Status = Models.User.MemberStatus.Undergraduate;
+                await _appDbContext.SaveChangesAsync();    
+            }
             
             return RedirectToAction(nameof(Members));
         }
