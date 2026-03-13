@@ -1,0 +1,14 @@
+﻿# User-specific files
+.vs/
+.vscode/
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Database files
+*.mdf
+*.ldf
+
+# Packages
+packages/
