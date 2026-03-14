@@ -36,7 +36,13 @@
                                 </td>
                                 <td>
                                     <form asp-action="ActivateUser" asp-route-id="@user.UserId" method="post" style="display:inline;">
-                                        <button type="submit" class="btn btn-sm btn-success px-3 fw-bold">تفعيل</button>
+                                        @* // تم التعديل نسخة 2 *@
+                                        <button type="submit" class="btn btn-sm btn-success px-3 fw-bold">تفعيل</button> @* // تم التعديل نسخة 2 *@
+                                    </form>
+                                    <form id="customEmailForm-@user.UserId" asp-action="SendCustomEmail" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                        @* // تم التعديل نسخة 2 *@
+                                        <input type="hidden" name="customMessage" id="customMessage-@user.UserId" /> @* // تم التعديل نسخة 2 *@
+                                        <button type="button" class="btn btn-sm btn-primary px-3 fw-bold" onclick="promptAndSendEmail(@user.UserId)">ارسال ايميل</button> @* // تم التعديل نسخة 2 *@
                                     </form>
                                 </td>
                             </tr>
@@ -83,7 +89,13 @@
                                 <td><span class="badge bg-success">عضو نشط</span></td>
                                 <td>
                                     <form asp-action="DeactivateUser" asp-route-id="@user.UserId" method="post" style="display:inline;">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm">تعليق العضوية</button>
+                                        @* // تم التعديل نسخة 2 *@
+                                        <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm">تعليق العضوية</button> @* // تم التعديل نسخة 2 *@
+                                    </form>
+                                    <form id="customEmailForm-@user.UserId" asp-action="SendCustomEmail" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                        @* // تم التعديل نسخة 2 *@
+                                        <input type="hidden" name="customMessage" id="customMessage-@user.UserId" /> @* // تم التعديل نسخة 2 *@
+                                        <button type="button" class="btn btn-sm btn-primary px-3 fw-bold" onclick="promptAndSendEmail(@user.UserId)">ارسال ايميل</button> @* // تم التعديل نسخة 2 *@
                                     </form>
 
                                     <form asp-action="GraduateMember" asp-route-id="@user.UserId" method="post" style="display:inline;">
@@ -170,5 +182,13 @@
             var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
             myModal.show();
         }
+         function promptAndSendEmail(userId) { // تم التعديل نسخة 2
+            var message = prompt('اكتب الرسالة التي تريد إرسالها:'); // تم التعديل نسخة 2
+            if (!message || message.trim() === '') { // تم التعديل نسخة 2
+                return; // تم التعديل نسخة 2
+            }
+
+            document.getElementById('customMessage-' + userId).value = message; // تم التعديل نسخة 2
+            document.getElementById('customEmailForm-' + userId).submit(); // تم التعديل نسخة 2
     </script>
 }

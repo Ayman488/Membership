@@ -1,5 +1,6 @@
 ﻿using Membership.Data;
 using Microsoft.AspNetCore.Mvc;
+using Membership.Services; // تم التعديل
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 using ClosedXML.Excel;
@@ -9,9 +10,13 @@ namespace Membership.Controllers
     public class AdminController : Controller
     {
         private readonly AppDbContext _appDbContext;
-        public AdminController(AppDbContext appDbContext)
+        private readonly IEmailService _emailService; // تم التعديل
+
+        public AdminController(AppDbContext appDbContext, IEmailService emailService) //تم التعديل
         {
             _appDbContext = appDbContext;
+            _emailService = emailService; // تم التعديل
+
         }
         public IActionResult AdminPage()
         {
@@ -66,9 +71,32 @@ namespace Membership.Controllers
             {
                 user.IsActive = true;
                 await _appDbContext.SaveChangesAsync();
+                if (!string.IsNullOrWhiteSpace(user.Email)) // تم التعديل
+                {
+                    var studentName = $"{user.FirstName} {user.LastName}".Trim(); // تم التعديل
+                    await _emailService.SendActivationEmailAsync(user.Email, studentName); // تم التعديل
+                }
             }
             return RedirectToAction(nameof(Members));
         }
+
+        [HttpPost] // تم التعديل نسخة 2
+        [ValidateAntiForgeryToken] // تم التعديل نسخة 2
+        public async Task<IActionResult> SendCustomEmail(int id, string customMessage) // تم التعديل نسخة 2
+        {
+            var user = await _appDbContext.Users.FindAsync(id); // تم التعديل نسخة 2
+            if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(customMessage)) // تم التعديل نسخة 2
+            {
+                return RedirectToAction(nameof(Members)); // تم التعديل نسخة 2
+            }
+
+            var studentName = $"{user.FirstName} {user.LastName}".Trim(); // تم التعديل نسخة 2
+            await _emailService.SendCustomEmailAsync(user.Email, studentName, customMessage); // تم التعديل نسخة 2
+            return RedirectToAction(nameof(Members)); // تم التعديل نسخة 2
+        }
+
+
+
         // أكشن تعليق العضوية
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -28,26 +28,26 @@ namespace Membership.Controllers
         {
             return View();
         }
-        // 1. ÚÑÖ ÕİÍÉ ÇáÊÓÌíá
+        // 1. ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
-        // 2. ãÚÇáÌÉ ÈíÇäÇÊ ÇáÊÓÌíá
+        // 2. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User user, IFormFile? photoFile)
         {
             if (ModelState.IsValid)
             {
-                // ãÚÇáÌÉ ÑİÚ ÇáÕæÑÉ ÅĞÇ æÌÏÊ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (photoFile != null && photoFile.Length > 0)
                 {
                     string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/students");
 
-                    // ÇáÊÃßÏ ãä æÌæÏ ÇáãÌáÏ
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     if (!Directory.Exists(uploadsFolder))
                         Directory.CreateDirectory(uploadsFolder);
 
@@ -59,14 +59,14 @@ namespace Membership.Controllers
                         await photoFile.CopyToAsync(fileStream);
                     }
 
-                    // ÍİÙ ÇÓã Çáãáİ İí ŞÇÚÏÉ ÇáÈíÇäÇÊ
+                    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     user.StudentCartPhoto = uniqueFileName;
                 }
 
                 _appDbContext.Add(user);
                 await _appDbContext.SaveChangesAsync();
 
-                return RedirectToAction("Index", "Home"); // ÇáÊæÌå áÕİÍÉ ÇáäÌÇÍ Ãæ ÇáÑÆíÓíÉ
+                return RedirectToAction("Index", "Home"); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             }
 
             return View(user);
