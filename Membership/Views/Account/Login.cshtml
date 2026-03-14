@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تسجيل الدخول - اتحاد الطلبة السوريين</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h3 class="text-center mb-4 text-primary">تسجيل الدخول</h3>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger p-2 text-center" style="font-size: 0.9rem;">
+                @ViewBag.Error
+            </div>
+        }
+
+        <form asp-controller="Account" asp-action="Login" method="post">
+            <div class="mb-3">
+                <label class="form-label">البريد الإلكتروني</label>
+                <input type="email" name="email" class="form-control" placeholder="example@mail.com" required />
+            </div>
+            <div class="mb-4">
+                <label class="form-label">كلمة المرور</label>
+                <input type="password" name="password" class="form-control" placeholder="******" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100 py-2">دخول إلى لوحة التحكم</button>
+        </form>
+
+        <div class="mt-3 text-center">
+            <small class="text-muted">نظام إدارة اتحاد الطلبة في سكاريا</small>
+        </div>
+    </div>
+
+</body>
+</html>

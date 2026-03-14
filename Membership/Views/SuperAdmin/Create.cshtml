@@ -1,0 +1,29 @@
+﻿
+<div class="container mt-5" dir="rtl">
+    <div class="card shadow-lg border-0" style="max-width: 500px; margin: auto;">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">إضافة مشرف جديد</h4>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label class="form-label">الاسم الكامل</label>
+                    <input type="text" name="name" class="form-control" placeholder="اسم المشرف" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">البريد الإلكتروني</label>
+                    <input type="email" name="email" class="form-control" placeholder="example@mail.com" required />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">كلمة المرور</label>
+                    <input type="password" name="password" class="form-control" placeholder="******" required />
+                </div>
+                <div class="alert alert-info py-2 small">سيتم إنشاء الحساب برتبة (Admin) افتراضياً.</div>
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-success flex-grow-1">إنشاء الحساب</button>
+                    <a asp-action="Index" class="btn btn-secondary">رجوع</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
