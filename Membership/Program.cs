@@ -1,4 +1,7 @@
 
+using Membership.Data;
+using Membership.Models;
+using Membership.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 

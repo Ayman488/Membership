@@ -39,10 +39,10 @@
                                         @* // تم التعديل نسخة 2 *@
                                         <button type="submit" class="btn btn-sm btn-success px-3 fw-bold">تفعيل</button> @* // تم التعديل نسخة 2 *@
                                     </form>
-                                    <form id="customEmailForm-@user.UserId" asp-action="SendCustomEmail" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                    <form id="customEmailForm-pending-@user.UserId" asp-action="SendCustomEmail" asp-route-id="@user.UserId" method="post" style="display:inline;">
                                         @* // تم التعديل نسخة 2 *@
-                                        <input type="hidden" name="customMessage" id="customMessage-@user.UserId" /> @* // تم التعديل نسخة 2 *@
-                                        <button type="button" class="btn btn-sm btn-primary px-3 fw-bold" onclick="promptAndSendEmail(@user.UserId)">ارسال ايميل</button> @* // تم التعديل نسخة 2 *@
+                                        <input type="hidden" name="customMessage" id="customMessage-pending-@user.UserId" /> @* // تم التعديل نسخة 2 *@
+                                        <button type="button" class="btn btn-sm btn-primary px-3 fw-bold" onclick="promptAndSendEmail('pending', @user.UserId)">ارسال ايميل</button> @* // تم التعديل نسخة 2 *@
                                     </form>
                                 </td>
                             </tr>
@@ -53,7 +53,7 @@
         </div>
     </div>
 
-        <div class="card shadow-lg border-0  mb-5"" style="border-radius: 15px;">
+    <div class="card shadow-lg border-0  mb-5" " style="border-radius: 15px;">
         <div class="card-header py-3" style="background-color: #1a3a5f;">
             <h5 class="mb-0 text-white fw-bold text-center"><i class="bi bi-check-circle-fill"></i> قاعدة بيانات الأعضاء المفعلين</h5>
         </div>
@@ -92,12 +92,11 @@
                                         @* // تم التعديل نسخة 2 *@
                                         <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm">تعليق العضوية</button> @* // تم التعديل نسخة 2 *@
                                     </form>
-                                    <form id="customEmailForm-@user.UserId" asp-action="SendCustomEmail" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                    <form id="customEmailForm-active-@user.UserId" asp-action="SendCustomEmail" asp-route-id="@user.UserId" method="post" style="display:inline;">
                                         @* // تم التعديل نسخة 2 *@
-                                        <input type="hidden" name="customMessage" id="customMessage-@user.UserId" /> @* // تم التعديل نسخة 2 *@
-                                        <button type="button" class="btn btn-sm btn-primary px-3 fw-bold" onclick="promptAndSendEmail(@user.UserId)">ارسال ايميل</button> @* // تم التعديل نسخة 2 *@
+                                        <input type="hidden" name="customMessage" id="customMessage-active-@user.UserId" /> @* // تم التعديل نسخة 2 *@
+                                        <button type="button" class="btn btn-sm btn-primary px-3 fw-bold" onclick="promptAndSendEmail('active', @user.UserId)">ارسال ايميل</button> @* // تم التعديل نسخة 2 *@
                                     </form>
-
                                     <form asp-action="GraduateMember" asp-route-id="@user.UserId" method="post" style="display:inline;">
                                         <button type="submit" class="btn btn-sm btn-success px-3 fw-bold ms-2">تخرج</button>
                                     </form>
@@ -111,84 +110,94 @@
     </div>
 
     <div class="card shadow-lg border-0  mb-5" style="border-radius: 15px;">
-    <div class="card-header py-3" style="background-color: #1a3a5f;">
-        <h5 class="mb-0 text-white fw-bold text-center"><i class="bi bi-check-circle-fill"></i> قاعدة بيانات الأعضاء المتخرجين</h5>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle text-center">
-                <thead style="background-color: #f8fafc;">
-                    <tr>
-                        <th>الاسم الكامل</th>
-                        <th>رقم الطالب</th>
-                        <th>الهاتف</th>
-                        <th>البريد الإلكتروني</th>
-                        <th>الجامعة والكلية</th>
-                        <th>السنة</th>
-                        <th>الكرت</th>
-                        <th>الإجراء</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var user in Model.Where(u => u.IsGrad()))
-                    {
+        <div class="card-header py-3" style="background-color: #1a3a5f;">
+            <h5 class="mb-0 text-white fw-bold text-center"><i class="bi bi-check-circle-fill"></i> قاعدة بيانات الأعضاء المتخرجين</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle text-center">
+                    <thead style="background-color: #f8fafc;">
                         <tr>
-                            <td class="fw-bold">@user.FirstName @user.LastName</td>
-                            <td><span class="badge bg-dark">@user.StudentNumber</span></td>
-                            <td dir="ltr">@user.PhoneNumber</td>
-                            <td><small>@user.Email</small></td>
-                            <td>@user.University <br /> <small class="text-muted">@user.College</small></td>
-                            <td>@user.YearOfStudy</td>
-                            <td>
-                                <button class="btn btn-sm btn-light border" onclick="showImage('/images/students/@user.StudentCartPhoto')">👁️</button>
-                            </td>
-                            <td>
-                                <form asp-action="UndergraduateMember" asp-route-id="@user.UserId" method="post" style="display:inline;">
-                                    <button type="submit" class="btn btn-sm btn-success px-3 fw-bold">إلغاء التخرج</button>
-                                </form>
-                            </td>
+                            <th>الاسم الكامل</th>
+                            <th>رقم الطالب</th>
+                            <th>الهاتف</th>
+                            <th>البريد الإلكتروني</th>
+                            <th>الجامعة والكلية</th>
+                            <th>السنة</th>
+                            <th>الكرت</th>
+                            <th>الإجراء</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Where(u => u.IsGrad()))
+                        {
+                            <tr>
+                                <td class="fw-bold">@user.FirstName @user.LastName</td>
+                                <td><span class="badge bg-dark">@user.StudentNumber</span></td>
+                                <td dir="ltr">@user.PhoneNumber</td>
+                                <td><small>@user.Email</small></td>
+                                <td>@user.University <br /> <small class="text-muted">@user.College</small></td>
+                                <td>@user.YearOfStudy</td>
+                                <td>
+                                    <button class="btn btn-sm btn-light border" onclick="showImage('/images/students/@user.StudentCartPhoto')">👁️</button>
+                                </td>
+                                <td>
+                                    <form asp-action="UndergraduateMember" asp-route-id="@user.UserId" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-success px-3 fw-bold">إلغاء التخرج</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @* كود الـ Modal الخاص بالصور يبقى كما هو في الأسفل *@
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0" style="border-radius: 20px;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-primary" id="imageModalLabel">معاينة كرت الطالب</h5>
+                    <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <img id="modalImage" src="" class="img-fluid rounded-3 shadow-lg" alt="Student Card" style="max-height: 500px;" />
+                </div>
+                <div class="modal-footer border-0 justify-content-center pt-0">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+                function showImage(src) {
+                    // تحديث مصدر الصورة في المودال
+                    document.getElementById('modalImage').src = src;
+                    // إظهار المودال باستخدام Bootstrap API
+                    var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+                    myModal.show();
+                }
+
+                  function promptAndSendEmail(tableType, userId) { // تم التعديل نسخة 2
+                    var message = prompt('اكتب الرسالة التي تريد إرسالها:'); // تم التعديل نسخة 2
+                    if (!message || message.trim() === '') { // تم التعديل نسخة 2
+                        return; // تم التعديل نسخة 2
                     }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
-@* كود الـ Modal الخاص بالصور يبقى كما هو في الأسفل *@
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0" style="border-radius: 20px;">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold text-primary" id="imageModalLabel">معاينة كرت الطالب</h5>
-                <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center p-4">
-                <img id="modalImage" src="" class="img-fluid rounded-3 shadow-lg" alt="Student Card" style="max-height: 500px;" />
-            </div>
-            <div class="modal-footer border-0 justify-content-center pt-0">
-                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">إغلاق</button>
-            </div>
-        </div>
-    </div>
-</div>
+                    var messageInput = document.getElementById('customMessage-' + tableType + '-' + userId);
+                    var emailForm = document.getElementById('customEmailForm-' + tableType + '-' + userId);
 
-@section Scripts {
-    <script>
-        function showImage(src) {
-            // تحديث مصدر الصورة في المودال
-            document.getElementById('modalImage').src = src;
-            // إظهار المودال باستخدام Bootstrap API
-            var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
-            myModal.show();
-        }
-         function promptAndSendEmail(userId) { // تم التعديل نسخة 2
-            var message = prompt('اكتب الرسالة التي تريد إرسالها:'); // تم التعديل نسخة 2
-            if (!message || message.trim() === '') { // تم التعديل نسخة 2
-                return; // تم التعديل نسخة 2
-            }
+                    if (!messageInput || !emailForm) {
+                        console.error('Email form not found for user:', userId);
+                        return;
+                    }
 
-            document.getElementById('customMessage-' + userId).value = message; // تم التعديل نسخة 2
-            document.getElementById('customEmailForm-' + userId).submit(); // تم التعديل نسخة 2
-    </script>
-}
+                    messageInput.value = message; // تم التعديل نسخة 2
+                    emailForm.submit(); // تم التعديل نسخة 2
+                }
+        </script>
+    }
