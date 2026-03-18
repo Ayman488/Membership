@@ -1,4 +1,10 @@
 ﻿@model Membership.Models.SuperAdminIndexViewModel
+@{
+    // الآن نجلب البيانات مباشرة من الموديل الذي أرسلته في الكنترولر
+    var admins = Model.Admins ?? new List<Membership.Models.Admin>();
+    var activeUsers = Model.ActiveUsers ?? new List<Membership.Models.User>();
+    var pendingUsers = Model.PendingUsers ?? new List<Membership.Models.User>();
+}
 
 @if (TempData["ErrorMessage"] != null)
 {
@@ -9,7 +15,7 @@
     <script>alert('@Html.Raw(TempData["SuccessMessage"])');</script>
 }
 
-<div class="container mt-4" dir="rtl text-right">
+<div class="container mt-4" dir="rtl" style="text-align: right;">
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
         <h2 class="text-primary">إدارة النظام - @(User.IsInRole("SuperAdmin") ? "سوبر أدمن" : "مشرف")</h2>
         <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger shadow-sm">تسجيل الخروج</a>
@@ -19,7 +25,12 @@
         <h3>قائمة المشرفين (Admins)</h3>
         @if (User.IsInRole("SuperAdmin"))
         {
-            <a asp-action="Create" class="btn btn-success shadow-sm">إضافة مشرف جديد</a>
+            <div class="d-flex gap-2">
+                <a asp-action="UploadStudents" class="btn btn-primary shadow-sm">
+                    <i class="bi bi-file-earmark-excel"></i> رفع بيانات طلاب (Excel)
+                </a>
+                <a asp-action="Create" class="btn btn-success shadow-sm">إضافة مشرف جديد</a>
+            </div>
         }
     </div>
 
@@ -28,7 +39,7 @@
             <tr><th>الاسم</th><th>البريد</th><th>الرتبة</th><th>العمليات</th></tr>
         </thead>
         <tbody>
-            @foreach (var admin in Model.Admins)
+            @foreach (var admin in admins)
             {
                 <tr class="@(admin.Email == User.Identity.Name ? "table-info" : "")">
                     <td>@admin.Name</td>
@@ -42,13 +53,17 @@
                         else if (User.IsInRole("SuperAdmin"))
                         {
                             <div class="d-flex gap-2 justify-content-center">
-                                <form asp-action="PromoteToSuperAdmin" asp-route-id="@admin.AdminId" method="post" onsubmit="return confirm('نقل ملكية السوبر أدمن؟');">
+                                <form asp-action="PromoteToSuperAdmin" asp-route-id="@admin.AdminId" method="post" onsubmit="return confirm('هل أنت متأكد من نقل ملكية السوبر أدمن لهذا الشخص؟');">
                                     <button type="submit" class="btn btn-info btn-sm text-white shadow-sm">ترقية لسوبر</button>
                                 </form>
-                                <form asp-action="DeleteAdmin" asp-route-id="@admin.AdminId" method="post" onsubmit="return confirm('حذف نهائي؟');">
+                                <form asp-action="DeleteAdmin" asp-route-id="@admin.AdminId" method="post" onsubmit="return confirm('حذف هذا المشرف نهائياً؟');">
                                     <button type="submit" class="btn btn-danger btn-sm shadow-sm">حذف</button>
                                 </form>
                             </div>
+                        }
+                        else
+                        {
+                            <span class="text-muted small">صلاحية محدودة</span>
                         }
                     </td>
                 </tr>
@@ -56,17 +71,78 @@
         </tbody>
     </table>
 
-    <h3 class="text-danger mb-3">بانتظار التفعيل</h3>
+    <hr class="my-5" />
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card border-success shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title text-success">المنتسبون المقبولون</h5>
+                        <p class="card-text h3">@activeUsers.Count()</p>
+                    </div>
+                    <div class="text-success">
+                        <i class="bi bi-person-check-fill" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-danger shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title text-danger">بانتظار التفعيل</h5>
+                        <p class="card-text h3">@pendingUsers.Count()</p>
+                    </div>
+                    <div class="text-danger">
+                        <i class="bi bi-person-dash-fill" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="text-danger mb-3">منتسبون قيد الانتظار</h3>
     <table class="table table-hover table-bordered text-center shadow-sm mb-5">
         <thead class="table-danger">
-            <tr><th>الاسم</th><th>البريد</th><th>العمليات</th></tr>
+            <tr>
+                <th>الاسم</th>
+                <th>الجنس</th>
+                <th>البريد</th>
+                <th>الرقم الجامعي</th>
+                <th>الهاتف</th>
+                <th>الجامعة</th>
+                <th>الكلية</th>
+                <th>السنة</th>
+                <th>البطاقة</th>
+                <th>العمليات</th>
+            </tr>
         </thead>
         <tbody>
-            @foreach (var user in Model.PendingUsers)
+            @foreach (var user in pendingUsers)
             {
                 <tr>
                     <td>@user.FirstName @user.LastName</td>
+                    <td>@user.gender</td>
                     <td>@user.Email</td>
+                    <td>@user.StudentNumber</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.University</td>
+                    <td>@user.College</td>
+                    <td>@user.YearOfStudy</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(user.StudentCartPhoto))
+                        {
+                            <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    onclick="showImage('/images/students/@user.StudentCartPhoto')">
+                                <i class="bi bi-image"></i> عرض
+                            </button>
+                        }
+                        else
+                        {
+                            <span class="text-muted small">لا توجد</span>
+                        }
+                    </td>
                     <td>
                         <div class="d-flex gap-2 justify-content-center">
                             <form asp-action="ActivateUser" asp-route-id="@user.UserId" method="post">
@@ -74,34 +150,7 @@
                             </form>
                             @if (User.IsInRole("SuperAdmin"))
                             {
-                                <form asp-action="PromoteUserToAdmin" asp-route-id="@user.UserId" method="post">
-                                    <button type="submit" class="btn btn-info btn-sm text-white">ترقية لمشرف</button>
-                                </form>
-                            }
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <h3 class="text-success mb-3">الأعضاء المقبولون</h3>
-    <table class="table table-striped table-bordered text-center shadow-sm">
-        <thead class="table-primary">
-            <tr><th>الاسم</th><th>البريد</th><th>العمليات</th></tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model.ActiveUsers)
-            {
-                <tr>
-                    <td>@user.FirstName @user.LastName</td>
-                    <td>@user.Email</td>
-                    <td>
-                        <div class="d-flex gap-2 justify-content-center">
-                            <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-warning btn-sm text-white">تعديل</a>
-                            @if (User.IsInRole("SuperAdmin"))
-                            {
-                                <form asp-action="DeleteUser" asp-route-id="@user.UserId" method="post">
+                                <form asp-action="DeleteUser" asp-route-id="@user.UserId" method="post" onsubmit="return confirm('حذف؟');">
                                     <button type="submit" class="btn btn-danger btn-sm">حذف</button>
                                 </form>
                             }
@@ -111,4 +160,94 @@
             }
         </tbody>
     </table>
+
+    <h3 class="text-success mb-3">المنتسبون المقبولون</h3>
+    <table class="table table-striped table-bordered text-center shadow-sm">
+        <thead class="table-primary">
+            <tr>
+                <th>#</th>
+                <th>الاسم</th>
+                <th>الجنس</th>
+                <th>البريد</th>
+                <th>الرقم الجامعي</th>
+                <th>الهاتف</th>
+                <th>الجامعة</th>
+                <th>الكلية</th>
+                <th>السنة</th>
+                <th>البطاقة</th>
+                <th>العمليات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+            }
+            @foreach (var user in activeUsers)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@user.FirstName @user.LastName</td>
+                    <td>@user.gender</td>
+                    <td>@user.Email</td>
+                    <td>@user.StudentNumber</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.University</td>
+                    <td>@user.College</td>
+                    <td>@user.YearOfStudy</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(user.StudentCartPhoto))
+                        {
+                            <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    onclick="showImage('/images/students/@user.StudentCartPhoto')">
+                                <i class="bi bi-image"></i> عرض
+                            </button>
+                        }
+                        else
+                        {
+                            <span class="text-muted small">لا توجد</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="d-flex gap-2 justify-content-center">
+                            <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-warning btn-sm text-white">تعديل</a>
+                            @if (User.IsInRole("SuperAdmin"))
+                            {
+                                <form asp-action="DeleteUser" asp-route-id="@user.UserId" method="post" onsubmit="return confirm('حذف نهائياً؟');">
+                                    <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+                                </form>
+                            }
+                        </div>
+                    </td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
 </div>
+
+@* Modal Preview *@
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">معاينة بطاقة الطالب</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" class="img-fluid rounded" alt="بطاقة الطالب" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showImage(src) {
+        var modalImg = document.getElementById('modalImage');
+        modalImg.src = src;
+        modalImg.onerror = function() {
+            console.error("تعذر العثور على الصورة في المسار: " + src);
+        };
+        var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+        myModal.show();
+    }
+</script>

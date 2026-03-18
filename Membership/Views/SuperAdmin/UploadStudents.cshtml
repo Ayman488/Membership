@@ -1,0 +1,12 @@
+﻿<div class="card p-4">
+    <h4>رفع بيانات الطلاب من ملف Excel</h4>
+    <hr />
+    <form asp-action="UploadStudents" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label class="form-label">اختر ملف Excel (.xlsx)</label>
+            <input type="file" name="excelFile" class="form-control" accept=".xlsx" required />
+        </div>
+        <button type="submit" class="btn btn-primary">رفع ومعالجة البيانات</button>
+    </form>
+</div>
+// هاد جديد تمااما

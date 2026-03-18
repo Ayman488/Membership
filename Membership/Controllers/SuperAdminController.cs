@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ClosedXML.Excel;
 using Membership.Data;
 using Membership.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Membership.Controllers
 {
@@ -31,39 +32,6 @@ namespace Membership.Controllers
             };
 
             return View(viewModel); // إرسال الموديل للـ View
-        }
-
-        [HttpPost]
-        public IActionResult PromoteUserToAdmin(int id)
-        {
-            if (!User.IsInRole("SuperAdmin")) return Forbid();
-
-            var user = _context.Users.Find(id);
-            if (user == null) return NotFound();
-
-            var existingAdmin = _context.Admins.FirstOrDefault(a => a.Email == user.Email);
-            if (existingAdmin != null)
-            {
-                TempData["ErrorMessage"] = "هذا المستخدم هو مشرف بالفعل!";
-                return RedirectToAction("Index");
-            }
-
-            user.IsActive = true;
-            _context.Users.Update(user);
-
-            var newAdmin = new Admin
-            {
-                Name = $"{user.FirstName} {user.LastName}",
-                Email = user.Email,
-                PasswordHash = "123456",
-                Role = "Admin"
-            };
-
-            _context.Admins.Add(newAdmin);
-            _context.SaveChanges();
-
-            TempData["SuccessMessage"] = $"تمت ترقية {user.FirstName} لمشرف بنجاح.";
-            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -141,6 +109,77 @@ namespace Membership.Controllers
             user.College = college;
             user.YearOfStudy = yearOfStudy;
             _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+        //تمت اضافته 
+        [HttpGet]
+        public IActionResult UploadStudents()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UploadStudents(IFormFile excelFile)
+        {
+            if (excelFile == null || excelFile.Length == 0)
+            {
+                TempData["ErrorMessage"] = "يرجى اختيار ملف إكسل صحيح.";
+                return RedirectToAction("Index");
+            }
+
+            try
+            {
+                using (var stream = excelFile.OpenReadStream())
+                {
+                    using (var workbook = new XLWorkbook(stream))
+                    {
+                        var worksheet = workbook.Worksheet(1); // قراءة أول صفحة
+                        var rows = worksheet.RangeUsed().RowsUsed().Skip(1); // تجاوز صف العناوين
+
+                        foreach (var row in rows)
+                        {
+                            // 1. قراءة البريد الإلكتروني أولاً للتحقق منه
+                            string email = row.Cell(4).GetValue<string>()?.Trim();
+
+                            if (string.IsNullOrEmpty(email)) continue; // تخطى الأسطر الفارغة
+
+                            // 2. التحقق هل هذا الإيميل موجود مسبقاً في قاعدة البيانات؟
+                            bool isDuplicate = _context.Users.Any(u => u.Email == email);
+
+                            if (isDuplicate)
+                            {
+                                // إذا كان موجوداً، نتخطى هذا السطر وننتقل للطالب التالي
+                                continue;
+                            }
+
+                            // 3. إذا لم يكن مكرراً، نقوم بإنشاء الكائن وإضافته
+                            var user = new User
+                            {
+                                FirstName = row.Cell(1).GetValue<string>(),
+                                LastName = row.Cell(2).GetValue<string>(),
+                                gender = row.Cell(3).GetValue<string>(),
+                                Email = email,
+                                StudentNumber = row.Cell(5).GetValue<string>(),
+                                PhoneNumber = row.Cell(6).GetValue<string>(),
+                                University = row.Cell(7).GetValue<string>(),
+                                College = row.Cell(8).GetValue<string>(),
+                                IsActive = true,
+                                YearOfStudy = "1"
+                            };
+
+                            _context.Users.Add(user);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                TempData["SuccessMessage"] = "تم رفع بيانات الطلاب بنجاح!";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "حدث خطأ أثناء الرفع: " + ex.Message;
+            }
+
             return RedirectToAction("Index");
         }
     }
