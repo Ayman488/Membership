@@ -1,6 +1,8 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Membership.Data;
 using Membership.Models;
+using Membership.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -8,14 +10,17 @@ using System.Linq;
 
 namespace Membership.Controllers
 {
-    [Authorize(Roles = "SuperAdmin,Admin")]
+    [Authorize(Roles = "SuperAdmin")]
     public class SuperAdminController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IEmailService _emailService; // تم التعديل
 
-        public SuperAdminController(AppDbContext context)
+
+        public SuperAdminController(AppDbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -35,13 +40,18 @@ namespace Membership.Controllers
         }
 
         [HttpPost]
-        public IActionResult ActivateUser(int id)
+        public async Task<IActionResult> ActivateUser(int id)
         {
             var user = _context.Users.Find(id);
             if (user == null) return NotFound();
             user.IsActive = true;
             _context.SaveChanges();
             TempData["SuccessMessage"] = "تم تفعيل الحساب بنجاح.";
+            if (!string.IsNullOrWhiteSpace(user.Email)) // تم التعديل
+            {
+                var studentName = $"{user.FirstName} {user.LastName}".Trim(); // تم التعديل
+                await _emailService.SendActivationEmailAsync(user.Email, studentName); // تم التعديل
+            }
             return RedirectToAction("Index");
         }
 
@@ -102,13 +112,51 @@ namespace Membership.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditUser(int id, string college, string yearOfStudy)
+        [ValidateAntiForgeryToken]
+        public IActionResult EditUser(int UserId, string FirstName, string LastName, string Email,
+                               string StudentNumber, string PhoneNumber, string University,
+                               string College, string YearOfStudy)
         {
-            var user = _context.Users.Find(id);
-            if (user == null) return NotFound();
-            user.College = college;
-            user.YearOfStudy = yearOfStudy;
+            // 1. جلب الكائن الأصلي من قاعدة البيانات
+            var user = _context.Users.Find(UserId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // 2. التحديث الذكي: (نحدث فقط إذا كانت القيمة الجديدة ليست فارغة)
+
+            if (!string.IsNullOrWhiteSpace(FirstName))
+                user.FirstName = FirstName;
+
+            if (!string.IsNullOrWhiteSpace(LastName))
+                user.LastName = LastName;
+
+            if (!string.IsNullOrWhiteSpace(Email))
+                user.Email = Email;
+
+            if (!string.IsNullOrWhiteSpace(StudentNumber))
+                user.StudentNumber = StudentNumber;
+
+            if (!string.IsNullOrWhiteSpace(PhoneNumber))
+                user.PhoneNumber = PhoneNumber;
+
+            if (!string.IsNullOrWhiteSpace(University))
+                user.University = University;
+
+            if (!string.IsNullOrWhiteSpace(College))
+                user.College = College;
+
+            if (!string.IsNullOrWhiteSpace(YearOfStudy))
+                user.YearOfStudy = YearOfStudy;
+
+            // 3. حفظ التغييرات فقط للحقول التي تم تعديلها
             _context.SaveChanges();
+
+            // يمكنك إضافة رسالة نجاح هنا باستخدام TempData لتعلم الطالب بنجاح العملية
+            TempData["SuccessMessage"] = "تم تحديث البيانات بنجاح!";
+
             return RedirectToAction("Index");
         }
 
@@ -165,7 +213,8 @@ namespace Membership.Controllers
                                 University = row.Cell(7).GetValue<string>(),
                                 College = row.Cell(8).GetValue<string>(),
                                 IsActive = true,
-                                YearOfStudy = "1"
+                                YearOfStudy = "1",
+                                Status = Membership.Models.User.MemberStatus.Undergraduate
                             };
 
                             _context.Users.Add(user);
@@ -182,5 +231,68 @@ namespace Membership.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> GraduateMember(int Id)
+        {
+            var member = await _context.Users.FindAsync(Id);
+
+            if (member == null)
+                return NotFound();
+
+            if (member.Status != Models.User.MemberStatus.Graduated)
+            {
+                member.Status = Models.User.MemberStatus.Graduated;
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UndergraduateMember(int Id)
+        {
+            var member = await _context.Users.FindAsync(Id);
+
+            if (member == null)
+                return NotFound();
+
+            if (member.Status != Models.User.MemberStatus.Undergraduate)
+            {
+                member.Status = Models.User.MemberStatus.Undergraduate;
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeactivateUser(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
+            {
+                user.IsActive = false; // إعادة الحالة لغير فعال
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost] // تم التعديل نسخة 2
+        [ValidateAntiForgeryToken] // تم التعديل نسخة 2
+        public async Task<IActionResult> SendCustomEmail(int id, string customMessage) // تم التعديل نسخة 2
+        {
+            var user = await _context.Users.FindAsync(id); // تم التعديل نسخة 2
+            if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(customMessage)) // تم التعديل نسخة 2
+            {
+                return RedirectToAction(nameof(Members)); // تم التعديل نسخة 2
+            }
+
+            var studentName = $"{user.FirstName} {user.LastName}".Trim(); // تم التعديل نسخة 2
+            await _emailService.SendCustomEmailAsync(user.Email, studentName, customMessage); // تم التعديل نسخة 2
+            return RedirectToAction(nameof(Members)); // تم التعديل نسخة 2
+        }
+
+
     }
 }

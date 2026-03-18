@@ -21,7 +21,14 @@ namespace Membership.Controllers
                 var claims = new List<Claim> { new Claim(ClaimTypes.Name, admin.Email), new Claim(ClaimTypes.Role, admin.Role) };
                 var identity = new ClaimsIdentity(claims, "CookieAuth");
                 HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(identity));
-                return RedirectToAction("Index", "SuperAdmin");
+                if (admin.Role == "SuperAdmin")
+                {
+                    return RedirectToAction("Index", "SuperAdmin");
+                }
+                else
+                {
+                    return RedirectToAction("AdminPage", "Admin"); // تأكد من وجود Controller بهذا الاسم
+                }
             }
             ViewBag.Error = "بيانات الدخول خاطئة";
             return View();

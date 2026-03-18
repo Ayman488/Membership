@@ -3,23 +3,81 @@
     ViewData["Title"] = "تعديل بيانات المستخدم"; // تم التعديل
 }
 
-<div class="container mt-4">
-    <h2>تعديل بيانات الطالب: @Model.FirstName @Model.LastName</h2> <form asp-action="EditUser" method="post" class="mt-4">
-        <input type="hidden" name="id" value="@Model.UserId" /> <div class="form-group mb-3">
-            <label>الكلية</label>
-            <input type="text" name="college" class="form-control" value="@Model.College" required />
-        </div>
 
-        <div class="form-group mb-3">
-            <label>السنة الدراسية</label>
-            <select name="yearOfStudy" class="form-control">
-                <option value="1" selected="@(Model.YearOfStudy == "1")">السنة الأولى</option>
-                <option value="2" selected="@(Model.YearOfStudy == "2")">السنة الثانية</option>
-                <option value="3" selected="@(Model.YearOfStudy == "3")">السنة الثالثة</option>
-                <option value="4" selected="@(Model.YearOfStudy == "4")">السنة الرابعة</option>
-            </select>
+<div class="container mt-4" dir="rtl">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">تعديل بيانات الطالب: @Model.FirstName @Model.LastName</h4>
         </div>
+        <div class="card-body">
+            <form asp-action="EditUser" method="post">
+                <input type="hidden" name="UserId" value="@Model.UserId" />
 
-        <button type="submit" class="btn btn-success">حفظ التغييرات</button> <a asp-action="Index" class="btn btn-secondary">إلغاء</a>
-    </form>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">الاسم الأول</label>
+                        <input type="text" name="FirstName" class="form-control" value="@Model.FirstName"  />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">الكنية</label>
+                        <input type="text" name="LastName" class="form-control" value="@Model.LastName"  />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">البريد الإلكتروني</label>
+                        <input type="email" name="Email" class="form-control" value="@Model.Email"  />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">رقم الهاتف</label>
+                        <input type="tel" name="PhoneNumber" class="form-control" value="@Model.PhoneNumber" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">الجامعة</label>
+                        <input type="text" name="University" class="form-control" value="@Model.University" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">الكلية</label>
+                        <input type="text" name="College" class="form-control" value="@Model.College"  />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">رقم الطالب (Oğrenci No)</label>
+                        <input type="text" name="StudentNumber" class="form-control" value="@Model.StudentNumber" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">السنة الدراسية</label>
+                        <select name="YearOfStudy" class="form-select form-control">
+                            <option value="1" selected="@(Model.YearOfStudy == "1")">السنة الأولى</option>
+                            <option value="2" selected="@(Model.YearOfStudy == "2")">السنة الثانية</option>
+                            <option value="3" selected="@(Model.YearOfStudy == "3")">السنة الثالثة</option>
+                            <option value="4" selected="@(Model.YearOfStudy == "4")">السنة الرابعة</option>
+                            <option value="5" selected="@(Model.YearOfStudy == "5")">السنة الخامسة</option>
+                            <option value="6" selected="@(Model.YearOfStudy == "6")">السنى السادسة</option>
+                            <option value="7" selected="@(Model.YearOfStudy == "7")">السنى السابعة</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="d-flex justify-content-start">
+                    <button type="submit" class="btn btn-success ms-2">
+                        <i class="fas fa-save"></i> حفظ التغييرات
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">إلغاء</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

@@ -1,12 +1,14 @@
-﻿using Membership.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using ClosedXML.Excel;
+using Membership.Data;
 using Membership.Services; // تم التعديل
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
-using ClosedXML.Excel;
 
 namespace Membership.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly AppDbContext _appDbContext;

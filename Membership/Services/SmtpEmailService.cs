@@ -32,12 +32,12 @@ namespace Membership.Services
         <div style='padding:28px 24px;'>
             <p style='margin:0 0 12px;color:#111827;font-size:24px;font-weight:700;'>مرحباً {studentName}</p>
             <p style='margin:0 0 16px;color:#374151;font-size:20px;line-height:1.9;'>
-                نود إبلاغك بأنه <strong style='color:#065f46;'>تم تفعيل عضويتك بنجاح</strong> في اتحاد الطلبة السوريين.
+                نود إبلاغك بأنه <strong style='color:#065f46;'>تم تفعيل عضويتك بنجاح</strong> في اتحاد الطلبة السوريين في سكاريا.
             </p>
             <div style='margin:18px 0;padding:14px;background:#ecfeff;border:1px solid #a5f3fc;border-radius:10px;color:#0c4a6e;font-size:18px;font-weight:700;'>
                 أهلاً بك بيننا 💙
             </div>
-            <p style='margin:0;color:#4b5563;font-size:16px;'>مع التحية، إدارة اتحاد الطلبة السوريين.</p>
+            <p style='margin:0;color:#4b5563;font-size:16px;'>مع التحية، إدارة اتحاد الطلبة السوريين في سكاريا.</p>
         </div>
     </div>
 </body>
@@ -50,7 +50,7 @@ namespace Membership.Services
         {
             var safeName = WebUtility.HtmlEncode(studentName); // تم التعديل نسخة 2
             var safeMessage = WebUtility.HtmlEncode(customMessage).Replace("\n", "<br/>"); // تم التعديل نسخة 2
-            var subject = "رسالة من اتحاد الطلبة السوريين"; // تم التعديل نسخة 2
+            var subject = "رسالة من اتحاد الطلبة السوريين في سكاريا"; // تم التعديل نسخة 2
             var body = $@"<!DOCTYPE html>
 <html lang='ar' dir='rtl'>
 <head>
@@ -66,7 +66,7 @@ namespace Membership.Services
             <div style='margin:0 0 16px;color:#374151;font-size:18px;line-height:1.9;background:#f9fafb;padding:16px;border-radius:10px;border:1px solid #e5e7eb;'>
                 {safeMessage}
             </div>
-            <p style='margin:0;color:#4b5563;font-size:16px;'>مع التحية، إدارة اتحاد الطلبة السوريين.</p>
+            <p style='margin:0;color:#4b5563;font-size:16px;'>مع التحية، إدارة اتحاد الطلبة السوريين في سكاريا.</p>
         </div>
     </div>
 </body>

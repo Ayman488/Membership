@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "نموذج الانتساب";
 }
-@* وضعنا الستايل هنا داخل الصفحة للتحكم في الخلفية وشكل الكارت *@
+
 <div style="background-color: #1f4c8b; min-height: 100vh; padding: 50px 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
     <div class="container">
         <div class="row justify-content-center">
@@ -19,6 +19,7 @@
 
                             <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
 
+                            @* الاسم الأول والأخير *@
                             <div class="row mb-4">
                                 <div class="col-md-6 text-end">
                                     <label asp-for="FirstName" class="form-label fw-bold" style="color: #1f4c8b;">الاسم الأول:</label>
@@ -32,6 +33,7 @@
                                 </div>
                             </div>
 
+                            @* الجنس والبريد الإلكتروني *@
                             <div class="row mb-4">
                                 <div class="col-md-6 text-end">
                                     <label asp-for="gender" class="form-label fw-bold" style="color: #1f4c8b;">الجنس:</label>
@@ -49,6 +51,7 @@
                                 </div>
                             </div>
 
+                            @* رقم الهاتف ورقم الطالب *@
                             <div class="row mb-4">
                                 <div class="col-md-6 text-end">
                                     <label asp-for="PhoneNumber" class="form-label fw-bold" style="color: #2c5282;">رقم الهاتف:</label>
@@ -62,35 +65,51 @@
                                 </div>
                             </div>
 
+                            @* الجامعة *@
                             <div class="mb-4 text-end">
                                 <label asp-for="University" class="form-label fw-bold" style="color: #2c5282;">الجامعة:</label>
-                                <select asp-for="University" class="form-select text-end" style="background-color: #f8fafc;">
+                                <select asp-for="University" id="universitySelect" class="form-select text-end" style="background-color: #f8fafc;">
                                     <option value="">اختر الجامعة</option>
-                                    <option value="الجامعة 1">الجامعة 1</option>
-                                    <option value="الجامعة 2">الجامعة 2</option>
+                                    <option value="Sakarya University">Sakarya Üniversitesi</option>
+                                    <option value="Other University">الجامعة الأخرى</option>
                                 </select>
                                 <span asp-validation-for="University" class="text-danger small"></span>
                             </div>
 
+                            @* الكلية - واجهة مساعدة *@
                             <div class="mb-4 text-end">
-                                <label asp-for="College" class="form-label fw-bold" style="color: #1f4c8b;">الكلية / الفرع:</label>
-                                <select asp-for="College" class="form-select text-end" style="background-color: #f8fafc;">
-                                    <option value="">الكلية / الفرع</option>
-                                    <option value="هندسة">هندسة</option>
-                                    <option value="طب">طب</option>
+                                <label class="form-label fw-bold" style="color: #1f4c8b;">الكلية:</label>
+                                <select id="facultySelect" class="form-select text-end" style="background-color: #f8fafc;" disabled>
+                                    <option value="">اختر الجامعة أولاً</option>
+                                </select>
+                            </div>
+
+                            @* التخصص - الحقل الذي يرسل للداتابيس *@
+                            <div class="mb-4 text-end">
+                                <label asp-for="College" class="form-label fw-bold" style="color: #1f4c8b;">التخصص / الفرع:</label>
+                                <select asp-for="College" id="departmentSelect" class="form-select text-end" style="background-color: #f8fafc;" disabled>
+                                    <option value="">اختر الكلية أولاً</option>
                                 </select>
                                 <span asp-validation-for="College" class="text-danger small"></span>
                             </div>
 
+                            @* السنة الدراسية *@
                             <div class="mb-4 text-end">
                                 <label asp-for="YearOfStudy" class="form-label fw-bold" style="color: #1f4c8b;">السنة الدراسية:</label>
                                 <select asp-for="YearOfStudy" class="form-select text-end" style="background-color: #f8fafc;">
-                                    <option value="">تومر</option>
+                                    <option value="0">تومر</option>
                                     <option value="1">سنة أولى</option>
+                                    <option value="2">سنة ثانية</option>
+                                    <option value="3">سنة ثالثة</option>
+                                    <option value="4">سنة رابعة</option>
+                                    <option value="5">سنة خامسة</option>
+                                    <option value="6">سنة سادسة</option>
+                                    <option value="7">سنة سابعة</option>
                                 </select>
                                 <span asp-validation-for="YearOfStudy" class="text-danger small"></span>
                             </div>
 
+                            @* صورة كرت الطالب *@
                             <div class="mb-5 text-end">
                                 <label class="form-label fw-bold" style="color: #2c5282;">صورة كرت الطالب :</label>
                                 <input type="file" name="photoFile" class="form-control text-start" />
@@ -111,11 +130,103 @@
 
 @section Scripts {
     <script>
-        // دالة لإرسال طلب بسيط للسيرفر كل 5 دقائق لمنع انتهاء الجلسة
+        // هيكل البيانات لجامعتين
+        const allUniversitiesData = {
+            "Sakarya University": {
+                "برامج البكالوريوس": {
+                    "Bilgisayar ve Bilişim Bilimleri Fakültesi": ["Bilgisayar Mühendisliği", "Bilişim Sistemleri Mühendisliği", "Bilişim Sistemleri ve Teknolojileri", "Siber Güvenlik Mühendisliği", "Veri Bilimi ve Analitiği", "Yazılım Mühendisliği (İngilizce)"],
+                    "Diş Hekimliği Fakültesi": ["Diş Hekimliği"],
+                    "Eğitim Fakültesi (Hendek)": ["Fen Bilgisi Öğretmenliği", "İlköğretim Matematik Öğretmenliği", "İngilizce Öğretmenliği (İngilizce)", "Okul Öncesي Öğretmenliği", "Özel Eğitim Öğretmenliği", "Rehberlik ve Psikolojik Danışmanlık", "Sınıف Öğretmenliği", "Sosyal Bilgiler Öğretmenliği", "Türkçe Öğretmenliği"],
+                    "Fen Fakültesi": ["Biyoloji", "Fizik", "Kimya", "Matematik"],
+                    "Hukuk Fakültesi": ["Hukuk"],
+                    "İlahiyat Fakültesi": ["İlahiyat", "İlahiyat (M.T.O.K.)"],
+                    "İletişim Fakültesi": ["Gazetecilik", "Halkla İlişkiler ve Reklamcılık", "Radyo, Televizyon ve Sinema", "Yeni Medya ve İletişim"],
+                    "İnsan ve Toplum Bilimleri Fakültesi": ["Alman Dili ve Edebiyatı", "Almanca Mütercim ve Tercümanlık", "Coğrafya", "Felsefe", "İngilizce Mütercim ve Tercümanlık", "Psikoloji", "Sanat Tarihi", "Sosyal Hizmet", "Sosyoloji", "Tarih", "Türk Dili ve Edebiyati"],
+                    "İşletme Fakültesi": ["İnsan Kaynakları Yönetimi", "İşletme", "İşletme (İngilizce)", "Sağlık Yönetimi", "Uluslararası Ticaret ve Lojistik", "Yönetim Bilişim Sistemleri"],
+                    "Mühendislik Fakültesi": ["Çevre Mühendisliği", "Elektrik-Elektronik Mühendisliği", "Endüstri Mühendisliği", "Gıda Mühendisliği", "İnşaat Mühendisliği", "Makine Mühendisliği", "Metalurji ve Malzeme Mühendisliği", "Metalurji ve Malzeme Mühendisliği (İngilizce)"],
+                    "Sağlık Bilimleri Fakültesi": ["Ebelik", "Hemşirelik"],
+                    "Sanat, Tasarım ve Mimarlık Fakültesi": ["Görsel İletişim Tasارımı", "Mimarlık"],
+                    "Siyasal Bilgiler Fakültesi": ["Çalışma Ekonomisi ve Endüstri İlişkileri", "Ekonometri", "İktisat", "İslam İktisadı ve Finans", "Maliye", "Siyaset Bilimi ve Kamu Yönetimi", "Uluslararası İlişkiler"],
+                    "Tıp Fakültesi": ["Tıp"]
+                },
+                "برامج الدبلوم (Meslek Yüksekokulu)": {
+                    "Adapazarı Meslek Yüksekokulu": ["Acil Durum ve Afet Yönetimi", "Bilgisayar Programcılığı", "İnternet ve Ağ Teknolojileri", "Sağlık Bilgi Sistemleri Teknikerliği", "Web Tasarımı ve Kodlama"],
+                    "Sakarya Sağlık Hizmetleri MYO": ["Ağız ve Diş Sağlığı", "Anestezi", "Çocuk Gelişimi", "Fizyoterapi", "İlk ve Acil Yardım", "Optisyenlik", "Tıbbi Dokümantasyon ve Sekreterlik", "Tıbbi Laboratuvar Teknikleri", "Yaşlı Bakımı"]
+                }
+            },
+            "Other University": {
+                "الكليات المتاحة": {
+                    "يرجى تزويدي بالبيانات": ["بانتظار قائمة التخصصات"]
+                }
+            }
+        };
+
+        const uniSelect = document.getElementById('universitySelect');
+        const facSelect = document.getElementById('facultySelect');
+        const deptSelect = document.getElementById('departmentSelect');
+
+        // 1. عند تغيير الجامعة
+        uniSelect.addEventListener('change', function() {
+            const selectedUni = this.value;
+            facSelect.innerHTML = '<option value="">اختر الكلية</option>';
+            deptSelect.innerHTML = '<option value="">اختر الكلية أولاً</option>';
+            deptSelect.disabled = true;
+
+            if (selectedUni && allUniversitiesData[selectedUni]) {
+                facSelect.disabled = false;
+                const categories = allUniversitiesData[selectedUni];
+
+                for (const cat in categories) {
+                    const group = document.createElement('optgroup');
+                    group.label = cat;
+                    for (const fac in categories[cat]) {
+                        const opt = document.createElement('option');
+                        opt.value = fac;
+                        opt.textContent = fac;
+                        group.appendChild(opt);
+                    }
+                    facSelect.appendChild(group);
+                }
+            } else {
+                facSelect.disabled = true;
+            }
+        });
+
+        // 2. عند تغيير الكلية
+        facSelect.addEventListener('change', function() {
+            const selectedUni = uniSelect.value;
+            const selectedFac = this.value;
+            deptSelect.innerHTML = '<option value="">اختر التخصص</option>';
+
+            if (selectedUni && selectedFac) {
+                deptSelect.disabled = false;
+                let depts = [];
+                const categories = allUniversitiesData[selectedUni];
+
+                // البحث عن التخصصات داخل التصنيفات (بكالوريوس أو دبلوم)
+                for (const cat in categories) {
+                    if (categories[cat][selectedFac]) {
+                        depts = categories[cat][selectedFac];
+                        break;
+                    }
+                }
+
+                depts.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d;
+                    opt.textContent = d;
+                    deptSelect.appendChild(opt);
+                });
+            } else {
+                deptSelect.disabled = true;
+            }
+        });
+
+        // منع انتهاء الجلسة
         setInterval(function() {
-            fetch('/Home/Index'); // يطلب أي صفحة خفيفة فقط ليبقى الاتصال حياً
+            fetch('/Home/Index');
             console.log("Session kept alive...");
-        }, 300000); // 300,000 ملي ثانية = 5 دقائق
+        }, 300000);
     </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
