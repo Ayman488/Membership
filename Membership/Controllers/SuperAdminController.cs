@@ -278,6 +278,17 @@ namespace Membership.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public IActionResult GraduatedStudents()
+        {
+            // جلب جميع الطلاب الذين تم تحويل حالتهم إلى "خريج"
+            var graduatedUsers = _context.Users
+                .Where(u => u.Status == Membership.Models.User.MemberStatus.Graduated)
+                .ToList();
+
+            return View(graduatedUsers);
+        }
+
         [HttpPost] // تم التعديل نسخة 2
         [ValidateAntiForgeryToken] // تم التعديل نسخة 2
         public async Task<IActionResult> SendCustomEmail(int id, string customMessage) // تم التعديل نسخة 2

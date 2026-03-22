@@ -71,12 +71,6 @@ namespace Membership.Controllers
 
             return View(user);
         }
-        
-
-
-
-
-
 
 
 

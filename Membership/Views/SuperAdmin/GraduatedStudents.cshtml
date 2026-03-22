@@ -1,0 +1,181 @@
+﻿@model List<Membership.Models.User>
+@{
+    ViewData["Title"] = "سجل الخريجين العصرية";
+}
+
+<style>
+    /* تأثير ظل ناعم وحواف مستديرة للكروت */
+    .graduated-card {
+        border: none;
+        border-radius: 15px;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        background-color: #fff;
+    }
+
+        /* تأثير عند تمرير الماوس فوق الكرت */
+        .graduated-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+    /* تنسيق الصورة الرمزية (الآفاتار) */
+    .avatar-circle {
+        width: 60px;
+        height: 60px;
+        background-color: #e9ecef;
+        color: #495057;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    /* ستايل مخصص للبادج (Badge) المؤرشف */
+    .bg-soft-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+    }
+</style>
+
+<div class="container mt-4" dir="rtl" style="text-align: right;">
+
+    <div class="d-flex justify-content-between align-items-center mb-5 pb-3 border-bottom">
+        <div>
+            <div class="d-flex align-items-center">
+                <div class="icon-box bg-primary text-white rounded-3 p-3 me-3">
+                    <i class="bi bi-mortarboard fs-3"></i>
+                </div>
+                <div>
+                    <h2 class="text-dark fw-bold mb-0">نخبة الخريجين</h2>
+                    <p class="text-muted mb-0">سجل الشرف للطلاب الذين أتموا مسيرتهم بنجاح</p>
+                </div>
+            </div>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary px-4 rounded-pill shadow-sm">
+            <i class="bi bi-arrow-right me-1"></i> العودة للوحة الإدارة
+        </a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+        @if (Model != null && Model.Any())
+        {
+            foreach (var user in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm graduated-card p-3">
+                        <div class="card-body d-flex flex-column">
+
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-circle me-3">
+                                    @(user.FirstName?.Substring(0, 1).ToUpper() ?? "U")
+                                </div>
+                                <div>
+                                    <h5 class="card-title fw-bold text-dark mb-1">@user.FirstName @user.LastName</h5>
+                                    <span class="badge rounded-pill bg-soft-info">
+                                        <i class="bi bi-archive me-1"></i> خريج مؤرشف
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="user-details flex-grow-1 fs-7 text-secondary">
+                                <p class="mb-2">
+                                    <i class="bi bi-card-text me-2 text-primary"></i>
+                                    <strong>الرقم الجامعي:</strong> @user.StudentNumber
+                                </p>
+                                <p class="mb-2">
+                                    <i class="bi bi-envelope me-2 text-primary"></i>
+                                    <strong>البريد:</strong> <small>@user.Email</small>
+                                </p>
+                                <p class="mb-3">
+                                    <i class="bi bi-bank me-2 text-primary"></i>
+                                    <strong>الجامعة:</strong> @user.University / @user.College
+                                </p>
+
+                                <div class="mt-3 text-center">
+                                    @if (!string.IsNullOrEmpty(user.StudentCartPhoto))
+                                    {
+                                        <button type="button" class="btn btn-sm btn-light border text-secondary w-100" onclick="showImage('/images/students/@user.StudentCartPhoto')">
+                                            <i class="bi bi-image text-primary"></i> عرض البطاقة الجامعية
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <div class="p-1 border rounded bg-light text-muted small">
+                                            <i class="bi bi-image-alt"></i> لا توجد بطاقة مرفقة
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <hr class="text-muted opacity-25" />
+
+                            <div class="d-flex gap-2 justify-content-center pt-2">
+                                <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-sm btn-outline-warning rounded-pill px-3 fw-bold" title="تعديل البيانات">
+                                    <i class="bi bi-pencil me-1"></i> تعديل
+                                </a>
+
+                                @if (User.IsInRole("SuperAdmin"))
+                                {
+                                    <form asp-action="UndergraduateMember" asp-route-id="@user.UserId" method="post" class="m-0 p-0">
+                                        <button type="submit" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold" title="إلغاء حالة التخرج وإعادته كطالب حالي">
+                                            <i class="bi bi-arrow-counterclockwise me-1"></i> إلغاء تخرج
+                                        </button>
+                                    </form>
+
+                                    <form asp-action="DeleteUser" asp-route-id="@user.UserId" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الخريج نهائياً؟');" class="m-0 p-0">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-bold" title="حذف نهائي من النظام">
+                                            <i class="bi bi-trash3 me-1"></i> حذف
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 w-100 text-center py-5 mt-5">
+                <div class="card shadow-sm border-0 rounded-3 p-5 bg-light">
+                    <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
+                    <h4 class="text-secondary">سجل الخريجين فارغ</h4>
+                    <p class="text-muted mb-0">لا يوجد طلاب تم تخرجهم وأرشفتهم في الوقت الحالي.</p>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title fw-bold text-dark"><i class="bi bi-person-badge text-primary me-2"></i>معاينة البطاقة الجامعية</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-4">
+                <img id="modalImage" src="" class="img-fluid rounded shadow-sm" alt="بطاقة الطالب" style="max-height: 80vh; object-fit: contain;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // دالة عرض الصورة في النافذة المنبثقة
+    function showImage(src) {
+        var modalImg = document.getElementById('modalImage');
+        modalImg.src = src;
+        modalImg.onerror = function() {
+            console.error("تعذر العثور على الصورة في المسار: " + src);
+        };
+        var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+        myModal.show();
+    }
+</script>
