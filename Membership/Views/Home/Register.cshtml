@@ -17,8 +17,12 @@
                     <div class="card-body p-5 pt-2">
                         <form asp-action="Register" method="post" enctype="multipart/form-data" dir="rtl">
 
-                            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
-
+                            @if (ViewData.ModelState.ContainsKey(string.Empty) && ViewData.ModelState[string.Empty].Errors.Any())
+                            {
+                                <div class="alert alert-info shadow-sm border-0 mb-4">
+                                    <div asp-validation-summary="ModelOnly" class="text-dark small"></div>
+                                </div>
+                            }
                             @* الاسم الأول والأخير *@
                             <div class="row mb-4">
                                 <div class="col-md-6 text-end">
@@ -47,6 +51,14 @@
                                 <div class="col-md-6 text-end">
                                     <label asp-for="Email" class="form-label fw-bold" style="color: #1f4c8b;">البريد الإلكتروني:</label>
                                     <input asp-for="Email" type="email" class="form-control text-start" placeholder="example@email.com" style="background-color: #f8fafc;" />
+
+                                    @* النص المساعد الجديد *@
+                                    <div class="form-text small mt-1" style="color: #6c757d; line-height: 1.4;">
+                                        <i class="bi bi-info-circle-fill me-1"></i>
+                                        يجب استخدام البريد الجامعي المنتهي بـ <br />
+                                        <span class="fw-bold text-primary">@@ogr.sakarya.edu.tr</span> أو <span class="fw-bold text-primary">@@subu.edu.tr</span>
+                                    </div>
+
                                     <span asp-validation-for="Email" class="text-danger small"></span>
                                 </div>
                             </div>
@@ -71,7 +83,7 @@
                                 <select asp-for="University" id="universitySelect" class="form-select text-end" style="background-color: #f8fafc;">
                                     <option value="">اختر الجامعة</option>
                                     <option value="Sakarya University">Sakarya Üniversitesi</option>
-                                    <option value="Other University">الجامعة الأخرى</option>
+                                    <option value="Sakarya Uygulamalı Bilimler Üniversitesi">جامعة سكاريا للعلوم التطبيقية (SUBU)</option>
                                 </select>
                                 <span asp-validation-for="University" class="text-danger small"></span>
                             </div>
@@ -112,7 +124,7 @@
                             @* صورة كرت الطالب *@
                             <div class="mb-5 text-end">
                                 <label class="form-label fw-bold" style="color: #2c5282;">صورة كرت الطالب :</label>
-                                <input type="file" name="photoFile" class="form-control text-start" />
+                                <input type="file" name="photoFile" accept="image/jpeg, image/png, image/jpg" class="form-control" />
                             </div>
 
                             <div class="d-grid pb-3">
@@ -136,7 +148,7 @@
                 "برامج البكالوريوس": {
                     "Bilgisayar ve Bilişim Bilimleri Fakültesi": ["Bilgisayar Mühendisliği", "Bilişim Sistemleri Mühendisliği", "Bilişim Sistemleri ve Teknolojileri", "Siber Güvenlik Mühendisliği", "Veri Bilimi ve Analitiği", "Yazılım Mühendisliği (İngilizce)"],
                     "Diş Hekimliği Fakültesi": ["Diş Hekimliği"],
-                    "Eğitim Fakültesi (Hendek)": ["Fen Bilgisi Öğretmenliği", "İlköğretim Matematik Öğretmenliği", "İngilizce Öğretmenliği (İngilizce)", "Okul Öncesي Öğretmenliği", "Özel Eğitim Öğretmenliği", "Rehberlik ve Psikolojik Danışmanlık", "Sınıف Öğretmenliği", "Sosyal Bilgiler Öğretmenliği", "Türkçe Öğretmenliği"],
+                    "Eğitim Fakültesi (Hendek)": ["Fen Bilgisi Öğretmenliği", "İlköğretim Matematik Öğretmenliği", "İngilizce Öğretmenliği (İngilizce)", "Okul Öncesi Öğretmenliği", "Özel Eğitim Öğretmenliği", "Rehberlik ve Psikolojik Danışmanlık", "Sınıf Öğretmenliği", "Sosyal Bilgiler Öğretmenliği", "Türkçe Öğretmenliği"],
                     "Fen Fakültesi": ["Biyoloji", "Fizik", "Kimya", "Matematik"],
                     "Hukuk Fakültesi": ["Hukuk"],
                     "İlahiyat Fakültesi": ["İlahiyat", "İlahiyat (M.T.O.K.)"],
@@ -154,10 +166,15 @@
                     "Sakarya Sağlık Hizmetleri MYO": ["Ağız ve Diş Sağlığı", "Anestezi", "Çocuk Gelişimi", "Fizyoterapi", "İlk ve Acil Yardım", "Optisyenlik", "Tıbbi Dokümantasyon ve Sekreterlik", "Tıbbi Laboratuvar Teknikleri", "Yaşlı Bakımı"]
                 }
             },
-            "Other University": {
-                "الكليات المتاحة": {
-                    "يرجى تزويدي بالبيانات": ["بانتظار قائمة التخصصات"]
-                }
+            "Sakarya Uygulamalı Bilimler Üniversitesi": {
+            "برامج البكالوريوس": {
+                "Teknoloji Fakültesi": ["Bilgisayar Mühendisliği", "Bilgisayar Mühendisliği (M.T.O.K.)", "Elektrik-Elektronik Mühendisliği", "İnşaat Mühendisliği", "Makine Mühendisliği", "Makine Mühendisliği (M.T.O.K.)", "Mekatronik Mühendisliği", "Mekatronik Mühendisliği (M.T.O.K.)", "Metalurji ve Malzeme Mühendisliği"],
+                "Ziraat Fakültesi": ["Bahçe Bitkileri", "Bitki Koruma", "Peyzaj Mimarlığı", "Tarla Bitkileri"],
+                "Sağlık Bilimleri Fakültesi (Akyazı)": ["Fizyoterapi ve Rehabilitasyon", "Hemşirelik", "Sağlık Yönetimi"],
+                "Turizm Fakültesi (Sapanca)": ["Gastronomi ve Mutfak Sanatları", "Rekreasyon Yönetimi", "Turizm İşletmeciliği", "Turizm Rehberliği"],
+                "Uygulamalı Bilimler Fakültesi": ["Finans ve Bankacılık", "Uluslararası Ticaret ve Finansman", "Uluslararası Ticaret ve Lojistik"],
+                "Spor Bilimleri Fakültesi": ["Spor Yöneticiliği"]
+            }
             }
         };
 
@@ -224,8 +241,8 @@
 
         // منع انتهاء الجلسة
         setInterval(function() {
-            fetch('/Home/Index');
-            console.log("Session kept alive...");
+        fetch(window.location.href);
+        console.log("Session kept alive...");
         }, 300000);
     </script>
     @{

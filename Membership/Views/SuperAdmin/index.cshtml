@@ -130,16 +130,27 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0 text-center">
                         <thead class="table-light">
-                            <tr><th>الاسم</th><th>البريد</th><th>الجامعة</th><th>التخصص</th><th>البطاقة</th><th>العمليات</th></tr>
+                            <tr><th>الاسم</th>
+                                <th>رقم الطالب</th>
+                                <th>رقم الهاتف</th>
+                                <th>البريد</th>
+                                <th>الجامعة</th>
+                                <th>التخصص</th>
+                                <th>السنة</th>
+                                <th>البطاقة</th>
+                                <th>العمليات</th></tr>
                         </thead>
                         <tbody>
                             @foreach (var user in pendingUsers)
                             {
                                 <tr>
                                     <td class="fw-bold">@user.FirstName @user.LastName</td>
+                                    <td><small>@user.StudentNumber</small></td>
+                                    <td><small>@user.PhoneNumber</small></td>
                                     <td>@user.Email</td>
                                     <td>@user.University</td>
                                     <td>@user.College</td>
+                                    <td>@user.YearOfStudy</td>
                                     <td>
                                         @if (!string.IsNullOrEmpty(user.StudentCartPhoto))
                                         {
@@ -193,6 +204,8 @@
                     <thead class="table-light">
                         <tr>
                             <th>الاسم</th>
+                            <th>رقم الطالب</th>
+                            <th>رقم الهاتف</th>
                             <th>البريد</th>
                             <th>الجامعة</th>
                             <th>التخصص</th>
@@ -206,6 +219,8 @@
                         {
                             <tr class="student-row">
                                 <td class="fw-bold student-name">@user.FirstName @user.LastName</td>
+                                <td><small>@user.StudentNumber</small></td>
+                                <td><small>@user.PhoneNumber</small></td>
                                 <td><small>@user.Email</small></td>
                                 <td>@user.University</td>
                                 <td><span class="badge bg-light text-dark border">@user.College</span></td>
