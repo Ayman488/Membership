@@ -1,6 +1,6 @@
 ﻿using ClosedXML.Excel;
 using Membership.Data;
-using Membership.Services; // تم التعديل
+using Membership.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +12,12 @@ namespace Membership.Controllers
     public class AdminController : Controller
     {
         private readonly AppDbContext _appDbContext;
-        private readonly IEmailService _emailService; // تم التعديل
+        private readonly IEmailService _emailService; 
 
-        public AdminController(AppDbContext appDbContext, IEmailService emailService) //تم التعديل
+        public AdminController(AppDbContext appDbContext, IEmailService emailService) 
         {
             _appDbContext = appDbContext;
-            _emailService = emailService; // تم التعديل
+            _emailService = emailService; 
 
         }
         public IActionResult AdminPage()
@@ -31,6 +31,7 @@ namespace Membership.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> GraduateMember(int Id)
         {
             var member = await _appDbContext.Users.FindAsync(Id);
@@ -48,6 +49,7 @@ namespace Membership.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UndergraduateMember(int Id)
         {
             var member = await _appDbContext.Users.FindAsync(Id);
@@ -73,28 +75,28 @@ namespace Membership.Controllers
             {
                 user.IsActive = true;
                 await _appDbContext.SaveChangesAsync();
-                if (!string.IsNullOrWhiteSpace(user.Email)) // تم التعديل
+                if (!string.IsNullOrWhiteSpace(user.Email)) 
                 {
-                    var studentName = $"{user.FirstName} {user.LastName}".Trim(); // تم التعديل
-                    await _emailService.SendActivationEmailAsync(user.Email, studentName); // تم التعديل
+                    var studentName = $"{user.FirstName} {user.LastName}".Trim(); 
+                    await _emailService.SendActivationEmailAsync(user.Email, studentName);
                 }
             }
             return RedirectToAction(nameof(Members));
         }
 
-        [HttpPost] // تم التعديل نسخة 2
-        [ValidateAntiForgeryToken] // تم التعديل نسخة 2
-        public async Task<IActionResult> SendCustomEmail(int id, string customMessage) // تم التعديل نسخة 2
+        [HttpPost]
+        [ValidateAntiForgeryToken] 
+        public async Task<IActionResult> SendCustomEmail(int id, string customMessage) 
         {
-            var user = await _appDbContext.Users.FindAsync(id); // تم التعديل نسخة 2
-            if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(customMessage)) // تم التعديل نسخة 2
+            var user = await _appDbContext.Users.FindAsync(id); 
+            if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(customMessage)) 
             {
-                return RedirectToAction(nameof(Members)); // تم التعديل نسخة 2
+                return RedirectToAction(nameof(Members)); 
             }
 
-            var studentName = $"{user.FirstName} {user.LastName}".Trim(); // تم التعديل نسخة 2
-            await _emailService.SendCustomEmailAsync(user.Email, studentName, customMessage); // تم التعديل نسخة 2
-            return RedirectToAction(nameof(Members)); // تم التعديل نسخة 2
+            var studentName = $"{user.FirstName} {user.LastName}".Trim(); 
+            await _emailService.SendCustomEmailAsync(user.Email, studentName, customMessage); 
+            return RedirectToAction(nameof(Members)); 
         }
 
 
@@ -107,7 +109,7 @@ namespace Membership.Controllers
             var user = await _appDbContext.Users.FindAsync(id);
             if (user != null)
             {
-                user.IsActive = false; // إعادة الحالة لغير فعال
+                user.IsActive = false; 
                 await _appDbContext.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Members));

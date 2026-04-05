@@ -27,7 +27,7 @@ namespace Membership.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("AdminPage", "Admin"); // تأكد من وجود Controller بهذا الاسم
+                    return RedirectToAction("AdminPage", "Admin"); 
                 }
             }
             ViewBag.Error = "بيانات الدخول خاطئة";

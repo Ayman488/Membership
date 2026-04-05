@@ -12,8 +12,8 @@ builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("AppDbConnectionString");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings")); // تم التعديل
-builder.Services.AddScoped<IEmailService, SmtpEmailService>(); // تم التعديل
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings")); 
+builder.Services.AddScoped<IEmailService, SmtpEmailService>(); 
 
 // Add services to the container.
 builder.Services.AddSession(options =>
@@ -32,12 +32,12 @@ builder.Services.AddAntiforgery(options =>
 builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth", config =>
     {
-        config.Cookie.Name = "UserLoginCookie"; // تم التعديل
-        config.LoginPath = "/Account/Login"; // تم التعديل
-        config.AccessDeniedPath = "/Account/Login"; // تم التعديل
+        config.Cookie.Name = "UserLoginCookie"; 
+        config.LoginPath = "/Account/Login"; 
+        config.AccessDeniedPath = "/Account/Login"; 
     });
 
-builder.Services.AddAuthorization(); // تم التعديل
+builder.Services.AddAuthorization(); 
 
 var app = builder.Build();
 
@@ -53,10 +53,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // تم التعديل
+app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

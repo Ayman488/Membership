@@ -28,14 +28,13 @@ namespace Membership.Controllers
         {
             return View();
         }
-        // 1. ��� ���� �������
+
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
-        // 2. ������ ������ �������
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User user, IFormFile? photoFile)
@@ -59,7 +58,7 @@ namespace Membership.Controllers
                     u.Email == user.Email &&
                     u.PhoneNumber == user.PhoneNumber &&
                     u.StudentNumber == user.StudentNumber &&
-                    u.College == user.College ); // أضف أي حقول أخرى هنا
+                    u.College == user.College ); 
 
                 if (isDuplicate)
                 {
@@ -112,8 +111,6 @@ namespace Membership.Controllers
 
             return View(user);
         }
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,8 +1,14 @@
+appsettings.Development.json
+appsettings.Production.json
+
 .vs/
-**/bin/
-**/obj/
 *.user
 *.suo
 *.rsuser
 *.userosscache
 *.sln.docstates
+
+**/bin/
+**/obj/
+
+wwwroot/images/students/

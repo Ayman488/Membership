@@ -14,7 +14,7 @@ namespace Membership.Controllers
     public class SuperAdminController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IEmailService _emailService; // تم التعديل
+        private readonly IEmailService _emailService; 
 
 
         public SuperAdminController(AppDbContext context, IEmailService emailService)
@@ -36,10 +36,11 @@ namespace Membership.Controllers
                 PendingUsers = allUsers.Where(u => !u.IsActive).ToList()
             };
 
-            return View(viewModel); // إرسال الموديل للـ View
+            return View(viewModel); 
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ActivateUser(int id)
         {
             var user = _context.Users.Find(id);
@@ -47,10 +48,10 @@ namespace Membership.Controllers
             user.IsActive = true;
             _context.SaveChanges();
             TempData["SuccessMessage"] = "تم تفعيل الحساب بنجاح.";
-            if (!string.IsNullOrWhiteSpace(user.Email)) // تم التعديل
+            if (!string.IsNullOrWhiteSpace(user.Email)) 
             {
-                var studentName = $"{user.FirstName} {user.LastName}".Trim(); // تم التعديل
-                await _emailService.SendActivationEmailAsync(user.Email, studentName); // تم التعديل
+                var studentName = $"{user.FirstName} {user.LastName}".Trim(); 
+                await _emailService.SendActivationEmailAsync(user.Email, studentName); 
             }
             return RedirectToAction("Index");
         }
@@ -68,6 +69,7 @@ namespace Membership.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult PromoteToSuperAdmin(int id)
         {
             var newSuper = _context.Admins.Find(id);
@@ -82,6 +84,7 @@ namespace Membership.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteAdmin(int id)
         {
             if (!User.IsInRole("SuperAdmin")) return Forbid();
@@ -93,6 +96,7 @@ namespace Membership.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteUser(int id)
         {
             if (!User.IsInRole("SuperAdmin")) return Forbid();
@@ -125,8 +129,6 @@ namespace Membership.Controllers
                 return NotFound();
             }
 
-            // 2. التحديث الذكي: (نحدث فقط إذا كانت القيمة الجديدة ليست فارغة)
-
             if (!string.IsNullOrWhiteSpace(FirstName))
                 user.FirstName = FirstName;
 
@@ -151,17 +153,13 @@ namespace Membership.Controllers
             if (!string.IsNullOrWhiteSpace(YearOfStudy))
                 user.YearOfStudy = YearOfStudy;
 
-            // 3. حفظ التغييرات فقط للحقول التي تم تعديلها
             _context.SaveChanges();
 
-            // يمكنك إضافة رسالة نجاح هنا باستخدام TempData لتعلم الطالب بنجاح العملية
             TempData["SuccessMessage"] = "تم تحديث البيانات بنجاح!";
 
             return RedirectToAction("Index");
         }
 
-
-        //تمت اضافته 
         [HttpGet]
         public IActionResult UploadStudents()
         {
@@ -233,6 +231,7 @@ namespace Membership.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> GraduateMember(int Id)
         {
             var member = await _context.Users.FindAsync(Id);
@@ -250,6 +249,7 @@ namespace Membership.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UndergraduateMember(int Id)
         {
             var member = await _context.Users.FindAsync(Id);
@@ -289,19 +289,19 @@ namespace Membership.Controllers
             return View(graduatedUsers);
         }
 
-        [HttpPost] // تم التعديل نسخة 2
-        [ValidateAntiForgeryToken] // تم التعديل نسخة 2
-        public async Task<IActionResult> SendCustomEmail(int id, string customMessage) // تم التعديل نسخة 2
+        [HttpPost] 
+        [ValidateAntiForgeryToken] 
+        public async Task<IActionResult> SendCustomEmail(int id, string customMessage) 
         {
-            var user = await _context.Users.FindAsync(id); // تم التعديل نسخة 2
-            if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(customMessage)) // تم التعديل نسخة 2
+            var user = await _context.Users.FindAsync(id);
+            if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(customMessage))
             {
-                return RedirectToAction(nameof(Members)); // تم التعديل نسخة 2
+                return RedirectToAction(nameof(Members)); 
             }
 
-            var studentName = $"{user.FirstName} {user.LastName}".Trim(); // تم التعديل نسخة 2
-            await _emailService.SendCustomEmailAsync(user.Email, studentName, customMessage); // تم التعديل نسخة 2
-            return RedirectToAction(nameof(Members)); // تم التعديل نسخة 2
+            var studentName = $"{user.FirstName} {user.LastName}".Trim(); 
+            await _emailService.SendCustomEmailAsync(user.Email, studentName, customMessage); 
+            return RedirectToAction(nameof(Members)); 
         }
 
 

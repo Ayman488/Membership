@@ -4,18 +4,78 @@
     var activeUsers = Model.ActiveUsers ?? new List<Membership.Models.User>();
     var pendingUsers = Model.PendingUsers ?? new List<Membership.Models.User>();
 
-    // أبقينا هذه المتغيرات لأننا نحتاجها في كروت الإحصائيات العلوية
     var graduatedUsers = activeUsers.Where(u => u.IsGrad()).ToList();
     var currentActiveStudents = activeUsers.Where(u => !u.IsGrad()).ToList();
 }
 
 @if (TempData["ErrorMessage"] != null)
 {
-    <script>alert('@Html.Raw(TempData["ErrorMessage"])');</script>
+    <div id="toast-error" class="toast-notification toast-error">
+        <i class="bi bi-x-circle-fill"></i>
+        <span>@TempData["ErrorMessage"]</span>
+    </div>
 }
 @if (TempData["SuccessMessage"] != null)
 {
-    <script>alert('@Html.Raw(TempData["SuccessMessage"])');</script>
+    <div id="toast-success" class="toast-notification toast-success">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["SuccessMessage"]</span>
+    </div>
+}
+
+@section Styles {
+    <style>
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            animation: slideDown 0.4s ease, fadeOut 0.5s ease 3.5s forwards;
+            direction: rtl;
+        }
+
+        .toast-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+
+        .toast-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        @@keyframes slideDown {
+            from {
+                top: -60px;
+                opacity: 0;
+            }
+            to {
+                top: 20px;
+                opacity: 1;
+            }
+        }
+
+        @@keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+    </style>
 }
 
 <div class="container mt-4" dir="rtl" style="text-align: right;">
@@ -130,7 +190,8 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0 text-center">
                         <thead class="table-light">
-                            <tr><th>الاسم</th>
+                            <tr>
+                                <th>الاسم</th>
                                 <th>رقم الطالب</th>
                                 <th>رقم الهاتف</th>
                                 <th>البريد</th>
@@ -138,7 +199,8 @@
                                 <th>التخصص</th>
                                 <th>السنة</th>
                                 <th>البطاقة</th>
-                                <th>العمليات</th></tr>
+                                <th>العمليات</th>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach (var user in pendingUsers)
@@ -285,43 +347,46 @@
     </div>
 </div>
 
-<script>
-    // دالة البحث (Live Search)
-    function searchFunction() {
-        var input = document.getElementById("studentSearch");
-        var filter = input.value.toLowerCase();
-        var rows = document.getElementsByClassName("student-row");
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            ['toast-success', 'toast-error'].forEach(function (id) {
+                var el = document.getElementById(id);
+                if (el) {
+                    setTimeout(function () { el.remove(); }, 4000);
+                }
+            });
+        });
 
-        for (var i = 0; i < rows.length; i++) {
-            var nameField = rows[i].getElementsByClassName("student-name")[0];
-            if (nameField) {
-                var txtValue = nameField.textContent || nameField.innerText;
-                if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                    rows[i].style.display = "";
-                } else {
-                    rows[i].style.display = "none";
+        function searchFunction() {
+            var input = document.getElementById("studentSearch");
+            var filter = input.value.toLowerCase();
+            var rows = document.getElementsByClassName("student-row");
+            for (var i = 0; i < rows.length; i++) {
+                var nameField = rows[i].getElementsByClassName("student-name")[0];
+                if (nameField) {
+                    var txtValue = nameField.textContent || nameField.innerText;
+                    rows[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
                 }
             }
         }
-    }
 
-    // دالة إرسال الإيميل
-    function promptAndSendEmail(type, userId) {
-        var message = prompt("أدخل نص الرسالة التي تريد إرسالها للطالب:");
-        if (message != null && message.trim() !== "") {
-            document.getElementById("customMessage-" + type + "-" + userId).value = message;
-            document.getElementById("customEmailForm-" + type + "-" + userId).submit();
+        function promptAndSendEmail(type, userId) {
+            var message = prompt("أدخل نص الرسالة التي تريد إرسالها للطالب:");
+            if (message != null && message.trim() !== "") {
+                document.getElementById("customMessage-" + type + "-" + userId).value = message;
+                document.getElementById("customEmailForm-" + type + "-" + userId).submit();
+            }
         }
-    }
 
-    // دالة عرض الصورة في المودال
-    function showImage(src) {
-        var modalImg = document.getElementById('modalImage');
-        modalImg.src = src;
-        modalImg.onerror = function() {
-            console.error("تعذر العثور على الصورة في المسار: " + src);
-        };
-        var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
-        myModal.show();
-    }
-</script>
+        function showImage(src) {
+            var modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            modalImg.onerror = function () {
+                console.error("تعذر العثور على الصورة في المسار: " + src);
+            };
+            var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            myModal.show();
+        }
+    </script>
+}
